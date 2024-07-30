@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('communities', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->timestamps();
+            $table->softDeletes('deleted_at', precision: 0);
         });
     }
 
