@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('communities', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('name');
+            $table->text('description');
             $table->timestamps();
             $table->softDeletes('deleted_at', precision: 0);
         });
