@@ -2,6 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Community;
+use App\Models\CommunityUser;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -40,5 +45,11 @@ class User extends Authenticatable
         static::creating(function ($model) {
             $model->id = Str::uuid();
         });
+    }
+
+    public function communities( ): BelongsToMany {
+        return $this->belongsToMany(Community::class)
+                    ->using(CommunityUser::class)
+                    ->withTimestamps();
     }
 }
