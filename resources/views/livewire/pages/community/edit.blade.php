@@ -29,10 +29,15 @@ new #[Layout('layouts.app')] class extends Component {
         return redirect()->to(route('community.index'));
     }
 
-    public function mount()
+    public function mount(Community $community)
     {
-        $isCreate = request()->routeIs('community.create');
-        $this->pageTitle = $isCreate ? "Create Community" : "Edit Community";
+        if (request()->routeIs('community.create')) {
+            $this->pageTitle = "Create Community";
+        } else {
+            $this->pageTitle = "Edit Community";
+            $this->name = $community->name;
+            $this->description = $community->description;
+        }
     }
 
 };
@@ -44,37 +49,33 @@ new #[Layout('layouts.app')] class extends Component {
             {{ __($pageTitle) }}
         </h2>
     </x-slot>
-    <div class="py-12">
-        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="space-y-6">
-                    <header>
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                            Prolly Community Name
-                        </h2>
-                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                            A form to edit the community.
-                        </p>
-                    </header>
-                    <form wire:submit="save" class="space-y-6">
-                        <div>
-                            <x-input-label for="name" :value="__('Name')" />
-                            <x-text-input wire:model="name" id="name" class="block w-full" type="text" autofocus/>
-                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                            <x-input-error :messages="$errors->get('slug')" class="mt-2" />
-                        </div>
-                        <div>
-                            <x-input-label for="description" :value="__('Description')" />
-                            <x-text-input wire:model="description" id="description" class="block w-full" type="text"/>
-                            <x-input-error :messages="$errors->get('description')" class="mt-2" />
-                        </div>
-                        <div class="flex items-center justify-end mt-4"></div>
-                        <x-primary-button>
-                            {{ __('Create Community') }}
-                        </x-primary-button>
-                    </form>
+    <x-content-card>
+        <div class="space-y-6">
+            <header>
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                    Prolly Community Name
+                </h2>
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                    A form to edit the community.
+                </p>
+            </header>
+            <form wire:submit="save" class="space-y-6">
+                <div>
+                    <x-input-label for="name" :value="__('Name')" />
+                    <x-text-input wire:model="name" id="name" class="block w-full" type="text" autofocus/>
+                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('slug')" class="mt-2" />
                 </div>
-            </div>
+                <div>
+                    <x-input-label for="description" :value="__('Description')" />
+                    <x-text-input wire:model="description" id="description" class="block w-full" type="text"/>
+                    <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                </div>
+                <div class="flex items-center justify-end mt-4"></div>
+                <x-primary-button>
+                    {{ __('Create Community') }}
+                </x-primary-button>
+            </form>
         </div>
-    </div>
+    </x-content-card>
 </div>

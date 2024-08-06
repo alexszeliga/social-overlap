@@ -2,10 +2,16 @@
 
 use Livewire\Volt\Component;
 use Livewire\Attributes\Layout;
+use App\Models\Community;
+use Livewire\WithPagination;
 
 
 new #[Layout('layouts.app')] class extends Component {
-    //
+    protected $communities;
+
+    public function mount() {
+        $this->communities = Community::paginate(10);
+    }
 }; ?>
 
 <div>
@@ -19,20 +25,21 @@ new #[Layout('layouts.app')] class extends Component {
             </x-primary-button-link>
         </div>
     </x-slot>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    <header>
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                            Find your cohort!
-                        </h2>
-                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                            A list of communities.
-                        </p>
-                    </header>
-                </div>
+    <x-content-card>
+        <div class="space-y-6">
+            @foreach($this->communities as $c)
+            <div>
+                <a href="{{route('community.edit', ['community' => $c])}}">
+                    <h3 class="text-md font-medium text-gray-900 dark:text-gray-100">
+                        {{ $c->name }}
+                    </h3>
+                </a>
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                    {{ $c->description }}
+                </p>
             </div>
+            @endforeach
         </div>
-    </div>
+        {{ $this->communities->links() }}
+    </x-content-card>
 </div>

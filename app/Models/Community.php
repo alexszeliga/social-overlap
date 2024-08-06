@@ -3,18 +3,15 @@
 namespace App\Models;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 class Community extends Model
 {
-    use HasFactory;
-
-    protected $keyType = 'string';
-    public $incrementing = false;
+    use HasFactory, HasUuids;
     
     protected $fillable = [
         'name','description',
@@ -32,7 +29,6 @@ class Community extends Model
         parent::boot();
     
         static::creating(function ($model) {
-            $model->id = Str::uuid();
             $model->slug = Str::slug($model->name);
         });
     }
