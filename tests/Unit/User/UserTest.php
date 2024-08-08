@@ -25,8 +25,4 @@ class UserTest extends TestCase
     public function testUserCanClaimCommunity() {
         $this->assertTrue($this->user->communities->contains($this->claimedCommunity->id));
     }
-
-    public function testUserCanContributeUrl() {
-        $this->user->createContributionWithUrl('https://www.google.com/');
-    }
 }

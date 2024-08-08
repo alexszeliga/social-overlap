@@ -46,8 +46,4 @@ class User extends Authenticatable
     public function disownCommunity(Community $community) : void {
         $this->communities()->detach($community);
     }
-
-    public function createContributionWithUrl(){
-        
-    }
 }
