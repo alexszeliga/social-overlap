@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Community;
 use App\Models\CommunityUser;
+use App\Models\Contribution;
 
 class CommunityUserTest extends TestCase
 {
@@ -20,6 +21,11 @@ class CommunityUserTest extends TestCase
 
     public function testBasicCreation() {
         $this->assertInstanceOf(CommunityUser::class, $this->cu);
+    }
+
+    public function testCanCreateContributionWithUrl() {
+        $contribution = $this->cu->createContributionWithUrl('https://google.com');
+        $this->assertInstanceOf(Contribution::class, $contribution);
     }
     
 }

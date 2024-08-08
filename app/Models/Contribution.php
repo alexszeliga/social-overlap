@@ -15,12 +15,13 @@ class Contribution extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
 
-    protected $fillable = ['url'];
+    protected $fillable = ['user_id','community_id','url'];
 
     public function user() : HasOne {
-        return $this->hasOne(User::class);
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
+
     public function community() : HasOne {
-        return $this->hasOne(Community::class);
+        return $this->hasOne(Community::class, 'id', 'community_id');
     }
 }
