@@ -15,28 +15,30 @@ new #[Layout('layouts.app')] class extends Component {
 }; ?>
 
 <div>
-    <x-slot name="header">
-        <div class="flex items-center">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight mr-5">
-                {{ __('Communities') }}
-            </h2>
-            <x-primary-button-link :href="route('community.create')" class="ml-4">
-                Create a Community
-            </x-primary-button-link>
+    <x-header>
+        <div class="flex items-center justify-between">
+            <x-h1>
+                Communities
+            </x-h1>
+            <div class="flex flex-col space-y-1">
+                <x-primary-button-link :href="route('community.create')">
+                    Create a Community
+                </x-primary-button-link>
+            </div>
         </div>
-    </x-slot>
+    </x-header>
     <x-content-card>
         <div class="space-y-6">
             @foreach($this->communities as $c)
             <div>
-                <a href="{{route('community.edit', ['community' => $c])}}">
-                    <h3 class="text-md font-medium text-gray-900 dark:text-gray-100">
+                <a href="{{route('community.view', ['community' => $c])}}">
+                    <x-h3>
                         {{ $c->name }}
-                    </h3>
+                    </x-h3>
                 </a>
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                <x-p>
                     {{ $c->description }}
-                </p>
+                </x-p>
             </div>
             @endforeach
         </div>

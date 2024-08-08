@@ -2,7 +2,6 @@
 
 use Livewire\Volt\Component;
 use Livewire\Attributes\Layout;
-use Illuminate\Support\Facades\Log;
 use App\Models\Community;
 use Illuminate\Support\Str;
 
@@ -29,8 +28,8 @@ new #[Layout('layouts.app')] class extends Component {
         return redirect()->to(route('community.index'));
     }
 
-    public function mount(Community $community)
-    {
+    public function mount(?Community $community)
+    {   
         if (request()->routeIs('community.create')) {
             $this->pageTitle = "Create Community";
         } else {
@@ -44,21 +43,13 @@ new #[Layout('layouts.app')] class extends Component {
 ?>
 
 <div>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+    <x-header>
+        <x-h1>
             {{ __($pageTitle) }}
-        </h2>
-    </x-slot>
+        </x-h1>
+    </x-header>
     <x-content-card>
         <div class="space-y-6">
-            <header>
-                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                    Prolly Community Name
-                </h2>
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    A form to edit the community.
-                </p>
-            </header>
             <form wire:submit="save" class="space-y-6">
                 <div>
                     <x-input-label for="name" :value="__('Name')" />
@@ -73,7 +64,7 @@ new #[Layout('layouts.app')] class extends Component {
                 </div>
                 <div class="flex items-center justify-end mt-4"></div>
                 <x-primary-button>
-                    {{ __('Create Community') }}
+                    {{ __($pageTitle) }}
                 </x-primary-button>
             </form>
         </div>

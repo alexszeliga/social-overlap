@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+
 return new class extends Migration
 {
     /**
@@ -15,9 +16,10 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->timestamps();
             $table->uuid('user_id');
-            $table->foreign('user_id')      ->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->uuid('community_id');
-            $table->foreign('community_id') ->references('id')->on('communities');
+            $table->foreign('community_id')->references('id')->on('communities');
+            $table->softDeletes();
         });
     }
 

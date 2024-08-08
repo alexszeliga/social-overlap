@@ -21,7 +21,9 @@ class UserTest extends TestCase
     
     public function testUserCanClaimCommunity() {
         $community = Community::factory()->create();
-        $this->user->communities()->attach($community);
+        $this->user->claimCommunity($community);
         $this->assertTrue($this->user->communities->contains($community->id));
     }
+
+
 }

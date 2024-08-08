@@ -8,20 +8,20 @@ new #[Layout('layouts.app')] class extends Component {
 }; ?>
 
 <div>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Social Overlaps Home') }}
-        </h2>
-    </x-slot>
+    <x-header>
+        <x-h1>
+            {{ __('Social Overlaps') }}
+        </x-h1>
+    </x-header>
     <x-content-card>
         <header>
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+            <x-h2>
                 Home of the Home Page
-            </h2>
+            </x-h2>
 
-            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            <x-p>
                 Here, I will place home page content when it exists.
-            </p>
+            </x-p>
         </header>
     </x-content-card>
 </div>

@@ -38,4 +38,12 @@ class User extends Authenticatable
                     ->using(CommunityUser::class)
                     ->withTimestamps();
     }
+
+    public function claimCommunity(Community $community) : void {
+        $this->communities()->attach($community);
+    }
+
+    public function disownCommunity(Community $community) : void {
+        $this->communities()->detach($community);
+    }
 }

@@ -33,13 +33,18 @@ class Community extends Model
         });
     }
 
-    public function users( ): BelongsToMany {
-        return $this->belongsToMany(Community::class)
+    public function users(): BelongsToMany {
+        return $this->belongsToMany(User::class)
                     ->using(CommunityUser::class)
+                    ->wherePivotNull('deleted_at')
                     ->withTimestamps();
     }
 
     public function getId():string {
         return $this->id;
+    }
+
+    public function userIsSubscribed(User $user) {
+        return $this->users->pluck('id')->contains($user->id);
     }
 }
