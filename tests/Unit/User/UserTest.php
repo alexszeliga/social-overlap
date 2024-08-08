@@ -9,10 +9,13 @@ use App\Models\Community;
 class UserTest extends TestCase
 {
     protected $user;
+    protected $claimedCommunity;
 
     protected function setUp() : void {
         parent::setUp();
         $this->user = User::factory()->create();
+        $this->claimedCommunity = Community::factory()->create();
+        $this->user->claimCommunity($this->claimedCommunity);
     }
 
     public function testBasicCreation() {
@@ -20,10 +23,10 @@ class UserTest extends TestCase
     }
     
     public function testUserCanClaimCommunity() {
-        $community = Community::factory()->create();
-        $this->user->claimCommunity($community);
-        $this->assertTrue($this->user->communities->contains($community->id));
+        $this->assertTrue($this->user->communities->contains($this->claimedCommunity->id));
     }
 
-
+    public function testUserCanContributeUrl() {
+        $this->user->createContributionWithUrl('https://www.google.com/');
+    }
 }
