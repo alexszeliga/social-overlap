@@ -14,11 +14,11 @@ return new class extends Migration
     {
         Schema::create('community_user', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->timestamps();
             $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->uuid('community_id');
             $table->foreign('community_id')->references('id')->on('communities');
+            $table->timestamps();
             $table->softDeletes();
         });
     }
