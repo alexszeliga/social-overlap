@@ -31,4 +31,11 @@ class UserTest extends TestCase
         $contribution = $this->user->createContribution('https://google.com/');
         $this->assertInstanceOf(Contribution::class, $contribution);
     }
+
+    public function testUserCommunitiesDoesntIncludeSoftDeletedCommunities() {
+        $community = $this->user->communities->sole();
+        $this->user->disownCommunity($community);
+        $this->user->refresh();
+        $this->assertFalse($this->user->communities->contains($community));
+    }
 }

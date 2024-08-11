@@ -40,6 +40,7 @@ class User extends Authenticatable
     public function communities( ): BelongsToMany {
         return $this->belongsToMany(Community::class)
                     ->using(CommunityUser::class)
+                    ->wherePivotNull('deleted_at')
                     ->withTimestamps();
     }
 
