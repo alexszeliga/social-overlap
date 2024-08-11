@@ -39,9 +39,10 @@ new #[Layout('layouts.app')] class extends Component {
             </div>
             <div class="flex flex-col space-y-1">
                 @if( $community->userIsSubscribed(Auth::user()) )
-                    <x-secondary-button wire:click="disown">Disown</x-primary-button>
+                    <x-primary-button-link :href="route('contribution.create', ['community'=> $community->slug])">Contribute</x-primary-button-link>
+                    <x-secondary-button wire:loading.attr="disabled" wire:click="disown">Disown</x-primary-button>
                 @else
-                    <x-primary-button wire:click="claim">Claim</x-primary-button>
+                    <x-primary-button wire:loading.attr="disabled" wire:click="claim">Claim</x-primary-button>
                 @endif
             </div>
         </div>

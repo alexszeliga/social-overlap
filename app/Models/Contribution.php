@@ -20,8 +20,4 @@ class Contribution extends Model
     public function user() : HasOne {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
-
-    public function community() : HasOne {
-        return $this->hasOne(Community::class, 'id', 'community_id');
-    }
 }

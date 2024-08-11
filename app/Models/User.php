@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Community;
 use App\Models\CommunityUser;
+use App\Models\Contribution;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -48,5 +49,12 @@ class User extends Authenticatable
 
     public function disownCommunity(Community $community) : void {
         $this->communities()->detach($community);
+    }
+
+    public function createContribution($url) : Contribution {
+        return Contribution::create([
+            'user_id' => $this->id,
+            'url' => $url,
+        ]);
     }
 }

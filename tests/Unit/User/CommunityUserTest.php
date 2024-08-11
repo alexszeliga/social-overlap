@@ -22,10 +22,5 @@ class CommunityUserTest extends TestCase
     public function testBasicCreation() {
         $this->assertInstanceOf(CommunityUser::class, $this->cu);
     }
-
-    public function testCanCreateContributionWithUrl() {
-        $contribution = $this->cu->createContributionWithUrl('https://google.com');
-        $this->assertInstanceOf(Contribution::class, $contribution);
-    }
-    
+   
 }

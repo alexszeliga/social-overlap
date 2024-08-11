@@ -5,6 +5,7 @@ namespace Tests\Unit\User;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Community;
+use App\Models\Contribution;
 
 class UserTest extends TestCase
 {
@@ -24,5 +25,10 @@ class UserTest extends TestCase
     
     public function testUserCanClaimCommunity() {
         $this->assertTrue($this->user->communities->contains($this->claimedCommunity->id));
+    }
+
+    public function testUserCanCreateContribution() {
+        $contribution = $this->user->createContribution('https://google.com/');
+        $this->assertInstanceOf(Contribution::class, $contribution);
     }
 }

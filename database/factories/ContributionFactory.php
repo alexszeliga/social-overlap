@@ -23,7 +23,6 @@ class ContributionFactory extends Factory
     {
         return [
             'user_id' => static::$user_id ??= User::factory()->create()->id,
-            'community_id' => static::$community_id ??= Community::factory()->create()->id,
             'url' => fake()->url()
         ];
     }

@@ -34,12 +34,4 @@ class CommunityUser extends Pivot
     public function community() : HasOne {
         return $this->hasOne(Community::class, 'id', 'community_id');
     }
-
-    public function createContributionWithUrl($url) : ?Contribution {
-        return Contribution::create([
-            'user_id' => $this->user->id,
-            'community_id' => $this->community->id,
-            'url' => $url,
-        ]);
-    }
 }

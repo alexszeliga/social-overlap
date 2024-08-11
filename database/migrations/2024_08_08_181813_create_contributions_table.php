@@ -15,9 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->uuid('community_id');
-            $table->foreign('community_id')->references('id')->on('communities');
-            $table->unique(['url', 'community_id']);
+            $table->unique(['url', 'user_id']);
             $table->string('url', 512);
             $table->timestamps();
             $table->softDeletes();
