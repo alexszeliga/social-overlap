@@ -49,7 +49,9 @@ new #[Layout('layouts.app')] class extends Component {
     </x-header>
     <x-content-card>
         @foreach($community->contributions as $contribution)
-        <a href="{{route('conversation.view', ['community' => $community,'contribution' => $contribution])}}">{{$contribution->url}}</a>
+        <x-text-link :href="route('conversation.view', ['community' => $community,'contribution' => $contribution])">
+            {{$contribution->name}}
+        </x-text-link>
         @endforeach
     </x-content-card>
 </div>
