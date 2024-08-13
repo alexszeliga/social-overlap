@@ -17,7 +17,7 @@ class Contribution extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
 
-    protected $fillable = ['user_id','community_id','url'];
+    protected $fillable = ['user_id','url'];
 
     public function user() : HasOne {
         return $this->hasOne(User::class, 'id', 'user_id');
@@ -27,5 +27,9 @@ class Contribution extends Model
         return $this->belongsToMany(Community::class)
                     ->using(CommunityContribution::class)
                     ->withTimestamps();
+    }
+
+    public function addCommunity(Community $community) {
+        $this->communities()->attach($community);
     }
 }

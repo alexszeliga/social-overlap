@@ -20,10 +20,10 @@ class ContributionTest extends TestCase
         $this->assertInstanceOf(Contribution::class, $this->contribution);
     }
 
-    public function testCanAttachToCommunityClaimedByUser() {
+    public function testCanAttachToCommunity() {
         $community = Community::factory()->create();
         $this->assertFalse($this->contribution->communities->contains($community));
-        $this->contribution->communities()->attach($community);
+        $this->contribution->addCommunity($community);
         $this->contribution->refresh();
         $this->assertTrue($this->contribution->communities->contains($community));
     }
