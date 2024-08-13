@@ -25,7 +25,7 @@ new #[Layout('layouts.app')] class extends Component {
                 'url' => $this->url,
         ]);
         $contribution->addCommunity($community);
-        // TODO: route use to conversation page
+        return redirect()->to(route('conversation.view', ['community' => $community,'contribution' => $contribution]));
     }
 };
 ?>
