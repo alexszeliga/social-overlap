@@ -14,14 +14,8 @@ new #[Layout('layouts.app')] class extends Component {
         </x-h1>
     </x-header>
     <x-content-card>
-        <header>
-            <x-h2>
-                Home of the Home Page
-            </x-h2>
-
-            <x-p>
-                Here, I will place home page content when it exists.
-            </x-p>
-        </header>
+        <x-h2>
+            Community Contributions
+        </x-h2>
     </x-content-card>
 </div>
