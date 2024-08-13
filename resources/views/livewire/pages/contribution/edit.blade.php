@@ -17,12 +17,16 @@ new #[Layout('layouts.app')] class extends Component {
     #[Validate('required|url')]
     public string $url;
 
+    #[Validate('required|min:5|max:512')]
+    public string $name;
+
     public function save() {
         $this->validate();
         $community = Community::where('slug', '=', $this->slug)->sole();
         $contribution = Contribution::create([
                 'user_id' => Auth::user()->id,
                 'url' => $this->url,
+                'name' => $this->name,
         ]);
         $contribution->addCommunity($community);
         return redirect()->to(route('conversation.view', ['community' => $community,'contribution' => $contribution]));
@@ -52,9 +56,12 @@ new #[Layout('layouts.app')] class extends Component {
                 <x-input-error :messages="$errors->get('url')" class="mt-2"/>
             </div>
             <div>
-                <x-primary-button>
-                    Contribute
-                </x-primary-button>
+                <x-input-label>Name</x-input-label>
+                <x-text-input wire:model="name" class="block w-full"/>
+                <x-input-error :messages="$errors->get('name')" class="mt-2"/>
+            </div>
+            <div>
+                <x-primary-button>Contribute</x-primary-button>
             </div>
         </form>
     </x-content-card>
