@@ -17,7 +17,7 @@ class Contribution extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
 
-    protected $fillable = ['user_id','url'];
+    protected $fillable = ['user_id','url', 'name'];
 
     public function user() : HasOne {
         return $this->hasOne(User::class, 'id', 'user_id');
