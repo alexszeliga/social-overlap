@@ -4,6 +4,7 @@ namespace Tests\Unit\Community;
 
 use Tests\TestCase;
 use App\Models\Community;
+use App\Models\Contribution;
 use App\Models\User;
 
 class CommunityTest extends TestCase
@@ -25,6 +26,17 @@ class CommunityTest extends TestCase
         $user->communities()->attach($this->community);
         $this->community->refresh();
         $this->assertTrue($this->community->userIsSubscribed($user));
+    }
+
+    public function testCanGetContributionsFromUsers() {
+        $user = User::factory()->create();
+        $contribution = Contribution::create([
+            'user_id' => $user->id,
+            'url' => 'https://google.com/',
+        ]); 
+        $contribution->addCommunity($this->community);
+        $this->community->refresh();
+        $this->assertTrue($this->community->contributions->contains($contribution));
     }
     
 }

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\CommunityContribution;
+use App\Models\Contribution;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -37,6 +39,12 @@ class Community extends Model
         return $this->belongsToMany(User::class)
                     ->using(CommunityUser::class)
                     ->wherePivotNull('deleted_at')
+                    ->withTimestamps();
+    }
+
+    public function contributions() : BelongsToMany {
+        return $this->belongsToMany(Contribution::class)
+                    ->using(CommunityContribution::class)
                     ->withTimestamps();
     }
 
