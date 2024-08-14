@@ -52,10 +52,4 @@ class User extends Authenticatable
         $this->communities()->detach($community);
     }
 
-    public function createContribution($url) : Contribution {
-        return Contribution::create([
-            'user_id' => $this->id,
-            'url' => $url,
-        ]);
-    }
 }
