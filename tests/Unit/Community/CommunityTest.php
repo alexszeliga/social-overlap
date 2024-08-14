@@ -30,7 +30,7 @@ class CommunityTest extends TestCase
 
     public function testCanGetContributionsFromUsers() {
         $user = User::factory()->create();
-        $contribution = Contribution::create([
+        $contribution = Contribution::factory()->create([
             'user_id' => $user->id,
             'url' => 'https://google.com/',
         ]); 
