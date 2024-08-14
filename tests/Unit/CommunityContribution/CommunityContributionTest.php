@@ -26,7 +26,7 @@ class CommunityContributionTest extends TestCase
         $this->assertInstanceOf(CommunityContribution::class, $this->conversation);
     }
 
-    public function testCanAttachComments() {
+    public function testCanAttachRootComments() {
         $comment = Comment::factory()->create([
             'community_contribution_id' => $this->conversation->id,
             'commentable_id' => $this->conversation->id,

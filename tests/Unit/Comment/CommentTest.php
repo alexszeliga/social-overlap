@@ -17,4 +17,13 @@ class CommentTest extends TestCase
     public function testBasicCreation() {
         $this->assertInstanceOf(Comment::class, $this->comment);
     }
+
+    public function testCanAttachBranchComment() {
+        $branchComment = Comment::factory()->create([
+            'community_contribution_id' => $this->comment->conversation->id,
+            'commentable_id' => $this->comment->id,
+            'commentable_type' => $this->comment::class,
+        ]);
+        $this->assertTrue($this->comment->comments->contains($branchComment));
+    }
 }
