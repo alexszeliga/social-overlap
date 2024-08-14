@@ -5,7 +5,6 @@ use Livewire\Attributes\Layout;
 use App\Models\Community;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 
 new #[Layout('layouts.app')] class extends Component {
