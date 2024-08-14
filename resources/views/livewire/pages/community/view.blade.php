@@ -47,10 +47,15 @@ new #[Layout('layouts.app')] class extends Component {
         </div>
     </x-header>
     <x-content-card>
-        @foreach($community->contributions as $contribution)
-        <x-text-link :href="route('conversation.view', ['community' => $community,'contribution' => $contribution])">
-            {{$contribution->name}}
-        </x-text-link>
-        @endforeach
+        <x-h2>Conversations</x-h2>
+        <ul>
+            @foreach($community->contributions as $contribution)
+            <li>
+                <x-text-link :href="route('conversation.view', ['community' => $community,'contribution' => $contribution])">
+                    {{$contribution->name}}
+                </x-text-link>
+            </li>
+            @endforeach
+        </ul>
     </x-content-card>
 </div>
