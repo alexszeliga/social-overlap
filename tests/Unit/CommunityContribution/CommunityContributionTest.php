@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\Community;
 use App\Models\CommunityContribution;
 use App\Models\Contribution;
+use App\Models\Comment;
 
 class CommunityContributionTest extends TestCase
 {
@@ -23,5 +24,14 @@ class CommunityContributionTest extends TestCase
 
     public function testBasicCreation() {
         $this->assertInstanceOf(CommunityContribution::class, $this->conversation);
+    }
+
+    public function testCanAttachComments() {
+        $comment = Comment::factory()->create([
+            'community_contribution_id' => $this->conversation->id,
+            'commentable_id' => $this->conversation->id,
+            'commentable_type' => $this->conversation::class
+        ]);
+        $this->assertTrue($this->conversation->comments->contains($comment));
     }
 }
