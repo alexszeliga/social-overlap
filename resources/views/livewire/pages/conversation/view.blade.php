@@ -4,6 +4,7 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Layout;
 use App\Models\Community;
 use App\Models\Contribution;
+use App\Models\CommunityContribution;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -12,9 +13,13 @@ use Illuminate\Support\Facades\Log;
 new #[Layout('layouts.app')] class extends Component {
     public Community $community;
     public Contribution $contribution;
+    public CommunityContribution $conversation;
     public function mount(Community $community, Contribution $contribution) {
         $this->community = $community;
         $this->contribution = $contribution;
+        $this->conversation = CommunityContribution::where('community_id', '=', $this->community->id)
+                                                   ->where('contribution_id', '=', $this->contribution->id)
+                                                   ->sole();
     }
 }; ?>
 
