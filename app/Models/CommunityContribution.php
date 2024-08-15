@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Models\Comment;
-use App\Models\User;
+use App\Models\Community;
 use App\Models\Contribution;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,12 +20,12 @@ class CommunityContribution extends Pivot
     protected $keyType = 'string';
     public $incrementing = false;
 
-    public function user() : HasOne 
+    public function community() : HasOne 
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->hasOne(Community::class, 'id', 'community_id');
     }
 
-    public function community() : HasOne 
+    public function contribution(): HasOne
     {
         return $this->hasOne(Contribution::class, 'id', 'contribution_id');
     }
