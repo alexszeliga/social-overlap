@@ -16,6 +16,14 @@ class Comment extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
 
+    protected $fillable = [
+        'community_contribution_id',
+        'user_id',
+        'commentable_id',
+        'commentable_type',
+        'body',
+    ];
+
     public function conversation() : HasOne 
     {
         return $this->hasOne(CommunityContribution::class, 'id', 'community_contribution_id');
