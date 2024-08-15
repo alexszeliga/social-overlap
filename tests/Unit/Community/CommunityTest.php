@@ -11,16 +11,19 @@ class CommunityTest extends TestCase
 {
     protected $community;
 
-    protected function setUp() : void {
+    protected function setUp() : void 
+    {
         parent::setUp();
         $this->community = Community::factory()->create();
     }
 
-    public function testBasicCreation() {
+    public function testBasicCreation() 
+    {
         $this->assertInstanceOf(Community::class, $this->community);
     }
 
-    public function testCommunityKnowsIfUserIsSubscribed() {
+    public function testCommunityKnowsIfUserIsSubscribed() 
+    {
         $user = User::factory()->create();
         $this->assertFalse($this->community->userIsSubscribed($user));
         $user->communities()->attach($this->community);
@@ -28,7 +31,8 @@ class CommunityTest extends TestCase
         $this->assertTrue($this->community->userIsSubscribed($user));
     }
 
-    public function testCanGetContributionsFromUsers() {
+    public function testCanGetContributionsFromUsers() 
+    {
         $user = User::factory()->create();
         $contribution = Contribution::factory()->create([
             'user_id' => $user->id,
@@ -37,6 +41,11 @@ class CommunityTest extends TestCase
         $contribution->addCommunity($this->community);
         $this->community->refresh();
         $this->assertTrue($this->community->contributions->contains($contribution));
+    }
+
+    public function testCanGetConversations() 
+    {
+
     }
     
 }
