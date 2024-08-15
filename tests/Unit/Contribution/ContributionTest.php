@@ -5,6 +5,7 @@ namespace Tests\Unit\Contribution;
 use Tests\TestCase;
 use App\Models\Contribution;
 use App\Models\Community;
+use App\Models\User;
 
 
 class ContributionTest extends TestCase
@@ -18,6 +19,10 @@ class ContributionTest extends TestCase
 
     public function testBasicCreation() {
         $this->assertInstanceOf(Contribution::class, $this->contribution);
+    }
+
+    public function testHasUser() {
+        $this->assertInstanceOf(User::class, $this->contribution->user);
     }
 
     public function testCanAttachToCommunity() {
