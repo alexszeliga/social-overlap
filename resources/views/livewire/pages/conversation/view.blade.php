@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Log;
 
 
 new #[Layout('layouts.app')] class extends Component {
-    public Community $community;
-    public Contribution $contribution;
     public CommunityContribution $conversation;
     public bool $showRootComment = false;
     #[Validate('required')]
@@ -32,10 +30,8 @@ new #[Layout('layouts.app')] class extends Component {
     }
 
     public function mount(Community $community, Contribution $contribution) {
-        $this->community = $community;
-        $this->contribution = $contribution;
-        $this->conversation = CommunityContribution::where('community_id', '=', $this->community->id)
-                                                   ->where('contribution_id', '=', $this->contribution->id)
+        $this->conversation = CommunityContribution::where('community_id', '=', $community->id)
+                                                   ->where('contribution_id', '=', $contribution->id)
                                                    ->sole();
     }
 }; ?>
@@ -44,13 +40,13 @@ new #[Layout('layouts.app')] class extends Component {
     <x-header>
         <div class="flex items-center justify-between">
             <x-h1>
-                {{ $contribution->name }}
+                {{ $conversation->contribution->name }}
             </x-h1>
             <div class="flex flex-col space-y-1">
                 <x-primary-button wire:click="$toggle('showRootComment')">
                     Comment
                 </x-primary-button>
-                <x-secondary-button-link :href="$contribution->url" target="_BLANK">
+                <x-secondary-button-link :href="$conversation->contribution->url" target="_BLANK">
                     Visit
                 </x-secondary-button-link>
             </div>
