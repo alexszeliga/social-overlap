@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Community;
 use App\Models\CommunityUser;
 use App\Models\Contribution;
+use App\Models\CommunityContribution;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -50,6 +51,13 @@ class User extends Authenticatable
 
     public function disownCommunity(Community $community) : void {
         $this->communities()->detach($community);
+    }
+
+    public function homepageQuery() 
+    {
+        return CommunityContribution::whereHas('community.users', function ($query) {
+            $query->where('users.id', '=', $this->id);
+        });
     }
 
 }

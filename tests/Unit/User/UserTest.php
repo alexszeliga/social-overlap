@@ -5,7 +5,7 @@ namespace Tests\Unit\User;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Community;
-use App\Models\Contribution;
+use App\Models\CommunityContribution;
 
 class UserTest extends TestCase
 {
@@ -32,5 +32,12 @@ class UserTest extends TestCase
         $this->user->disownCommunity($community);
         $this->user->refresh();
         $this->assertFalse($this->user->communities->contains($community));
+    }
+
+    public function testHomepageQueryReturnsClaimedCommunityConversations() {
+        $conversation = CommunityContribution::factory()->create([
+            'community_id' => $this->claimedCommunity->id,
+        ]);
+        $this->assertTrue($this->user->homepageQuery()->get()->contains($conversation));
     }
 }

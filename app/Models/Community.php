@@ -8,6 +8,7 @@ use App\Models\Contribution;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
@@ -46,6 +47,10 @@ class Community extends Model
         return $this->belongsToMany(Contribution::class)
                     ->using(CommunityContribution::class)
                     ->withTimestamps();
+    }
+
+    public function conversations() : HasMany {
+        return $this->hasMany(CommunityContribution::class, 'community_id', 'id');
     }
 
     public function getId():string {
