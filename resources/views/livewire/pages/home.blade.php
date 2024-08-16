@@ -15,7 +15,14 @@ new #[Layout('layouts.app')] class extends Component {
     </x-header>
     <x-content-card>
         <x-h2>
-            Community Contributions
+            Community Conversations
         </x-h2>
+        <ul>
+            @foreach(Auth::user()->homepageQuery()->get() as $conversation)
+            <li>
+                <x-conversation-card :conversation="$conversation" />
+            </li>
+            @endforeach
+        </ul>
     </x-content-card>
 </div>

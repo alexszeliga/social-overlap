@@ -19,6 +19,7 @@ new #[Layout('layouts.app')] class extends Component {
     public string $rootCommentBody;
 
     public function createRootComment() {
+        $this->validate();
         Comment::create([
             'community_contribution_id' => $this->conversation->id,
             'user_id' => Auth::user()->id,
@@ -27,6 +28,7 @@ new #[Layout('layouts.app')] class extends Component {
             'body' => $this->rootCommentBody,
         ]);
         $this->reset(['rootCommentBody','showRootComment']);
+        $this->conversation->refresh();
     }
 
     public function mount(Community $community, Contribution $contribution) {
@@ -72,7 +74,7 @@ new #[Layout('layouts.app')] class extends Component {
         <ul>
             @foreach($conversation->comments as $comment)
                 <li>
-                    <x-p>{{$comment->body}}</x-p>
+                    <x-comment-card :comment="$comment" />
                 </li>
             @endforeach
         </ul>
