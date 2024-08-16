@@ -7,6 +7,8 @@ use App\Models\CommunityUser;
 use App\Models\Contribution;
 use App\Models\CommunityContribution;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -45,6 +47,13 @@ class User extends Authenticatable
                     ->withTimestamps();
     }
 
+    public function contributions(): HasMany {
+        return $this->hasMany(Contribution::class);
+    } 
+
+    public function conversations(): HasManyThrough {
+        return $this->hasManyThrough(CommunityContribution::class, Contribution::class);
+    }
     public function claimCommunity(Community $community) : void {
         $this->communities()->attach($community);
     }

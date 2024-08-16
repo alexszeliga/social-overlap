@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Community;
 use App\Models\CommunityContribution;
+use App\Models\Contribution;
 
 class UserTest extends TestCase
 {
@@ -39,5 +40,23 @@ class UserTest extends TestCase
             'community_id' => $this->claimedCommunity->id,
         ]);
         $this->assertTrue($this->user->homepageQuery()->get()->contains($conversation));
+    }
+
+    public function testUserCanGetContributions() {
+        $contribution = Contribution::factory()->create([
+            'user_id' => $this->user->id,
+        ]);
+        $this->assertTrue($this->user->contributions->contains($contribution));
+    }
+
+    public function testUserCanGetOwnConversations() {
+        $contribution = Contribution::factory()->create([
+            'user_id' => $this->user->id,
+        ]);
+        $conversation = CommunityContribution::factory()->create([
+            'community_id' => $this->claimedCommunity->id,
+            'contribution_id' => $contribution->id,
+        ]);
+        $this->assertTrue($this->user->conversations->contains($conversation));
     }
 }
