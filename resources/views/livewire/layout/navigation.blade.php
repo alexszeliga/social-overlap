@@ -39,6 +39,11 @@ new class extends Component
                         {{ __('Communities') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('conversation.index')" :active="request()->routeIs('conversation.index')" wire:navigate>
+                        {{ __('Conversations') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
