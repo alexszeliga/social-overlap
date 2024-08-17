@@ -45,9 +45,11 @@ new #[Layout('layouts.app')] class extends Component {
                 {{ $conversation->contribution->name }}
             </x-h1>
             <div class="flex flex-col space-y-1">
+                @if($conversation->community->userIsSubscribed(Auth::user()))
                 <x-primary-button wire:click="$toggle('showRootComment')">
                     Comment
                 </x-primary-button>
+                @endif
                 <x-secondary-button-link :href="$conversation->contribution->url" target="_BLANK">
                     Visit
                 </x-secondary-button-link>
@@ -74,7 +76,7 @@ new #[Layout('layouts.app')] class extends Component {
         <ul>
             @foreach($conversation->comments as $comment)
                 <li>
-                    <x-comment-card :comment="$comment" />
+                    <x-comment.card :comment="$comment" />
                 </li>
             @endforeach
         </ul>
