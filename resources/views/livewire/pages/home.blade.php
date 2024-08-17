@@ -20,7 +20,7 @@ new #[Layout('layouts.app')] class extends Component {
         <ul>
             @foreach(Auth::user()->homepageQuery()->get() as $conversation)
             <li>
-                <x-conversation-card :conversation="$conversation" />
+                <x-conversation.card :conversation="$conversation" />
             </li>
             @endforeach
         </ul>

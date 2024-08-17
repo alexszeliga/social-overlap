@@ -51,7 +51,7 @@ new #[Layout('layouts.app')] class extends Component {
         <ul>
             @foreach($community->conversations as $conversation)
             <li>
-                <x-conversation-card :conversation="$conversation" :hideCommunity="true" />
+                <x-conversation.card :conversation="$conversation" :hideCommunity="true" />
             </li>
             @endforeach
         </ul>
