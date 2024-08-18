@@ -7,28 +7,21 @@ use App\Models\Comment;
 use App\Models\Community;
 use App\Models\Contribution;
 use App\Models\CommunityContribution;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-
 new #[Layout('layouts.app')] class extends Component {
     public CommunityContribution $conversation;
     public bool $showRootComment = false;
-    #[Validate('required')]
-    public string $rootCommentBody;
 
-    public function createRootComment() {
-        $this->validate();
-        Comment::create([
-            'community_contribution_id' => $this->conversation->id,
-            'user_id' => Auth::user()->id,
-            'commentable_id' => $this->conversation->id,
-            'commentable_type' => $this->conversation::class,
-            'body' => $this->rootCommentBody,
-        ]);
-        $this->reset(['rootCommentBody','showRootComment']);
-        $this->conversation->refresh();
+    #[On('comment-created')]
+    public function commentCreated($rootId) {
+        if ($this->conversation->id === $rootId) {
+            $this->reset(['showRootComment']);
+            $this->conversation->refresh();
+        }
     }
 
     public function mount(Community $community, Contribution $contribution) {
@@ -58,16 +51,7 @@ new #[Layout('layouts.app')] class extends Component {
     </x-header>
     @if($showRootComment)
     <x-content-card>
-        <form wire:submit="createRootComment" class="space-y-6">
-            <div>
-                <x-input-label>
-                    Add Comment
-                </x-input-label>
-                <x-text-input class="block w-full" wire:model="rootCommentBody"/>
-                <x-input-error :messages="$errors->get('rootCommentBody')"/>
-            </div>
-            <x-primary-button>Submit</x-primary-button>
-        </form>
+        <livewire:components.comment.form :conversation="$conversation" :root="$conversation" :key="$conversation->id" />
     </x-content-card>
     @endif
     @if($conversation->comments->count() > 0)
@@ -75,8 +59,8 @@ new #[Layout('layouts.app')] class extends Component {
         <x-h2>The Conversation</x-h2>
         <ul>
             @foreach($conversation->comments as $comment)
-                <li>
-                    <x-comment.card :comment="$comment" />
+                <li wire:key="list-{{ $comment->id }}">
+                    <x-comment.card :comment="$comment" :key="$comment->id"/>
                 </li>
             @endforeach
         </ul>
