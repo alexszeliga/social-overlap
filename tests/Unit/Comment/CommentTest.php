@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\Comment;
 use App\Models\CommunityContribution;
 use App\Models\User;
+use Carbon\Carbon;
 
 class CommentTest extends TestCase
 {
@@ -43,5 +44,21 @@ class CommentTest extends TestCase
             'community_contribution_id' => $conversation->id,
         ]);
         $this->assertTrue($comment->conversation->is($conversation));
+    }
+
+    public function testBranchCommentsAreReturnedMostRecentFirst() {
+        $earlyComment = Comment::factory()->create([
+            'community_contribution_id' => $this->comment->conversation->id,
+            'commentable_id' => $this->comment->id,
+            'commentable_type' => $this->comment::class,
+            'created_at' => Carbon::now()->subHour(),
+        ]);
+        $recentComment = Comment::factory()->create([
+            'community_contribution_id' => $this->comment->conversation->id,
+            'commentable_id' => $this->comment->id,
+            'commentable_type' => $this->comment::class,
+            'created_at' => Carbon::now(),
+        ]);
+        $this->assertTrue($this->comment->comments->first()->is($recentComment));
     }
 }

@@ -32,6 +32,7 @@ class CommunityContribution extends Pivot
 
     public function comments() : MorphMany
     {
-        return $this->morphMany(Comment::class, 'commentable');
+        return $this->morphMany(Comment::class, 'commentable')
+                    ->latest();
     }  
 }

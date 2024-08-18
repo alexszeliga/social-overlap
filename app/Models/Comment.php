@@ -36,7 +36,8 @@ class Comment extends Model
 
     public function comments() : MorphMany
     {
-        return $this->morphMany(self::class, 'commentable');
+        return $this->morphMany(Comment::class, 'commentable')
+                    ->latest();
     }
 
     public function user() : HasOne {

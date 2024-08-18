@@ -7,6 +7,7 @@ use App\Models\Community;
 use App\Models\CommunityContribution;
 use App\Models\Contribution;
 use App\Models\Comment;
+use Carbon\Carbon;
 
 class CommunityContributionTest extends TestCase
 {
@@ -33,5 +34,21 @@ class CommunityContributionTest extends TestCase
             'commentable_type' => $this->conversation::class
         ]);
         $this->assertTrue($this->conversation->comments->contains($comment));
+    }
+
+    public function testRootCommentsAreReturnedMostRecentFirst() {
+        $earlyComment = Comment::factory()->create([
+            'community_contribution_id' => $this->conversation->id,
+            'commentable_id' => $this->conversation->id,
+            'commentable_type' => $this->conversation::class,
+            'created_at' => Carbon::now()->subHour(),
+        ]);
+        $recentComment = Comment::factory()->create([
+            'community_contribution_id' => $this->conversation->id,
+            'commentable_id' => $this->conversation->id,
+            'commentable_type' => $this->conversation::class,
+            'created_at' => Carbon::now(),
+        ]);
+        $this->assertTrue($this->conversation->comments->first()->is($recentComment));
     }
 }
