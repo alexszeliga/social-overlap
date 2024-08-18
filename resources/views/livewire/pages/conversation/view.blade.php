@@ -60,7 +60,11 @@ new #[Layout('layouts.app')] class extends Component {
         <ul>
             @foreach($conversation->comments as $comment)
                 <li wire:key="list-{{ $comment->id }}">
-                    <x-comment.card :comment="$comment" :key="$comment->id"/>
+                    <livewire:components.comment.card 
+                        :comment="$comment"
+                        :conversation="$conversation"
+                        :root="$comment"
+                        :key="$comment->id"/>
                 </li>
             @endforeach
         </ul>
