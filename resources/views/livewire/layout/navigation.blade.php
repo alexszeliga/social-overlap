@@ -39,11 +39,6 @@ new class extends Component
                         {{ __('Communities') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('conversation.index')" :active="request()->routeIs('conversation.index')" wire:navigate>
-                        {{ __('Conversations') }}
-                    </x-nav-link>
-                </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -64,6 +59,10 @@ new class extends Component
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile')" wire:navigate>
                             {{ __('Profile') }}
+                        </x-dropdown-link>
+
+                        <x-dropdown-link :href="route('conversation.index')" wire:navigate>
+                            {{ __('My Conversations') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -95,6 +94,11 @@ new class extends Component
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('community.index')" :active="request()->routeIs('community.index')" wire:navigate>
+                {{ __('Communities') }}
+            </x-responsive-nav-link>
+        </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
@@ -107,6 +111,11 @@ new class extends Component
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+
+                <x-dropdown-link :href="route('conversation.index')" wire:navigate>
+                    {{ __('My Conversations') }}
+                </x-dropdown-link>
+
 
                 <!-- Authentication -->
                 <button wire:click="logout" class="w-full text-start">
