@@ -1,5 +1,5 @@
 @props(['href'])
 
-<a href="{{$href}}" {{ $attributes->merge(['class'=>'text-sm font-medium leading-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:text-gray-700 dark:focus:text-gray-300 transition duration-150 ease-in-out']) }}>
+<a href="{{$href}}" {{ $attributes->merge(['class'=>'underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800']) }}>
     {{$slot}}
 </a>
