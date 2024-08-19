@@ -7,6 +7,7 @@ use App\Models\Community;
 use App\Models\CommunityContribution;
 use App\Models\Contribution;
 use App\Models\Comment;
+use App\Models\Turn;
 use Carbon\Carbon;
 
 class CommunityContributionTest extends TestCase
@@ -50,5 +51,13 @@ class CommunityContributionTest extends TestCase
             'created_at' => Carbon::now(),
         ]);
         $this->assertTrue($this->conversation->comments->first()->is($recentComment));
+    }
+    
+    public function testCanReturnTurns() {
+        $turn = Turn::factory()->create([
+            'turnable_id' => $this->conversation->id,
+            'turnable_type' => $this->conversation::class,
+        ]);
+        $this->assertTrue($this->conversation->turns->contains($turn));
     }
 }

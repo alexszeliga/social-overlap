@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\Comment;
 use App\Models\CommunityContribution;
 use App\Models\User;
+use App\Models\Turn;
 use Carbon\Carbon;
 
 class CommentTest extends TestCase
@@ -60,5 +61,13 @@ class CommentTest extends TestCase
             'created_at' => Carbon::now(),
         ]);
         $this->assertTrue($this->comment->comments->first()->is($recentComment));
+    }
+
+    public function testCanReturnTurns() {
+        $turn = Turn::factory()->create([
+            'turnable_id' => $this->comment->id,
+            'turnable_type' => $this->comment::class,
+        ]);
+        $this->assertTrue($this->comment->turns->contains($turn));
     }
 }

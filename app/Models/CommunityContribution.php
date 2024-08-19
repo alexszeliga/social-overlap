@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Comment;
 use App\Models\Community;
 use App\Models\Contribution;
+use App\Models\Turn;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -34,5 +35,10 @@ class CommunityContribution extends Pivot
     {
         return $this->morphMany(Comment::class, 'commentable')
                     ->latest();
-    }  
+    }
+
+    public function turns() : MorphMany
+    {
+        return $this->morphMany(Turn::class, 'turnable');
+    }
 }
