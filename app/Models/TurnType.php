@@ -10,4 +10,6 @@ class TurnType extends Model
     use HasFactory;
     public $timestamps = false;
 
+    const SUPPORT = 1;
+    const DISSENT = 2;
 }

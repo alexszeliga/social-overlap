@@ -34,9 +34,10 @@ new class extends Component {
             <x-h4>u:{{ $comment->user->name }}</x-h4>
             <x-h4>{{ $comment->created_at->diffForHumans() }}</x-h4>
         </div>
-        @if($comment->exists())
-            <x-p>{{ $comment->body }}</x-p>
-        @endif
+        <x-p>{{ $comment->body }}</x-p>
+        <div>
+            <livewire:components.turn.toggle :root="$comment"/>
+        </div>
         @if($showForm)
             <livewire:components.comment.form :conversation="$conversation" :root="$root" :key="$root->id"/>
         @else
@@ -62,8 +63,5 @@ new class extends Component {
                 </div>
             @endif
         @endif
-        <div>
-            <livewire:components.turn.toggle :root="$comment"/>
-        </div>
     </div>
 </x-card-border>
