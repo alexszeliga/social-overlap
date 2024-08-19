@@ -10,8 +10,6 @@ use App\Models\Contribution;
 
 class CommunityUserTest extends TestCase
 {
-    protected $user;
-    protected $community;
     protected $cu;
 
     protected function setUp() : void {
@@ -21,6 +19,18 @@ class CommunityUserTest extends TestCase
 
     public function testBasicCreation() {
         $this->assertInstanceOf(CommunityUser::class, $this->cu);
+    }
+
+    public function testCanReturnRelations() {
+        $user = User::factory()->create();
+        $community = Community::factory()->create();
+        $newCu = CommunityUser::factory()->create([
+            'user_id' => $user->id,
+            'community_id' => $community->id,
+        ]);
+
+        $this->assertTrue($newCu->user->is($user));
+        $this->assertTrue($newCu->community->is($community));
     }
    
 }
