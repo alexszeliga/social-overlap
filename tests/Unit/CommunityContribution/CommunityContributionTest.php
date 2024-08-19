@@ -8,18 +8,19 @@ use App\Models\CommunityContribution;
 use App\Models\Contribution;
 use App\Models\Comment;
 use App\Models\Turn;
+use App\Models\TurnType;
 use Carbon\Carbon;
 
 class CommunityContributionTest extends TestCase
 {
-    protected $conversation;
+    protected $conversation, $contribution;
 
     protected function setUp() : void {
         parent::setUp();
-        $cont = Contribution::factory()->create();
+        $this->contribution = Contribution::factory()->create();
         $com = Community::factory()->create();
-        $cont->addCommunity($com);
-        $this->conversation = CommunityContribution::where('contribution_id', '=', $cont->id)
+        $this->contribution->addCommunity($com);
+        $this->conversation = CommunityContribution::where('contribution_id', '=', $this->contribution->id)
                                                    ->where('community_id', '=', $com->id)
                                                    ->sole();
     }
@@ -59,5 +60,19 @@ class CommunityContributionTest extends TestCase
             'turnable_type' => $this->conversation::class,
         ]);
         $this->assertTrue($this->conversation->turns->contains($turn));
+    }
+
+    public function testCanGetScoreFromTurns() {
+        $turn1 = Turn::factory()->create([
+            'turnable_id' => $this->conversation->id,
+            'turnable_type' => $this->conversation::class,
+            'turn_type_id' => TurnType::factory()->support()->create()->id,
+        ]);
+
+        $this->assertEquals($this->conversation->getScore(), 1);
+    }
+
+    public function testCanReturnContribution() {
+        $this->assertTrue($this->contribution->is($this->conversation->contribution));
     }
 }

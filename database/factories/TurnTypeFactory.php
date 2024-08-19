@@ -17,8 +17,24 @@ class TurnTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'SUPPORT',
+            'name' => 'Support',
             'value' => 1
         ];
+    }
+
+    public function support(): static
+    {
+        return $this->state(fn(array $attr)=>[
+            'name' => 'Support',
+            'value' => 1,
+        ]);
+    }
+
+    public function dissent(): static
+    {
+        return $this->state(fn(array $attr)=>[
+            'name' => 'Dissent',
+            'value' => -1,
+        ]);
     }
 }

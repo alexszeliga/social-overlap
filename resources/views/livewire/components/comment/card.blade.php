@@ -62,5 +62,8 @@ new class extends Component {
                 </div>
             @endif
         @endif
+        <div>
+            <livewire:components.turn.toggle :root="$comment"/>
+        </div>
     </div>
 </x-card-border>

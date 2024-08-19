@@ -49,4 +49,8 @@ class Comment extends Model
     {
         return $this->morphMany(Turn::class, 'turnable');
     }
+
+    public function getScore() {
+        return $this->turns->map(fn($t)=>$t->getValue())->sum();
+    }
 }

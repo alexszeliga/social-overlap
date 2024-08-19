@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Models\CommunityContribution;
 use App\Models\User;
 use App\Models\Turn;
+use App\Models\TurnType;
 use Carbon\Carbon;
 
 class CommentTest extends TestCase
@@ -69,5 +70,15 @@ class CommentTest extends TestCase
             'turnable_type' => $this->comment::class,
         ]);
         $this->assertTrue($this->comment->turns->contains($turn));
+    }
+
+    public function testCanGetScoreFromTurns() {
+        $turn1 = Turn::factory()->create([
+            'turnable_id' => $this->comment->id,
+            'turnable_type' => $this->comment::class,
+            'turn_type_id' => TurnType::factory()->support()->create()->id,
+        ]);
+
+        $this->assertEquals($this->comment->getScore(), 1);
     }
 }
