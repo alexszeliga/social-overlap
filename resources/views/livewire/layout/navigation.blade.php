@@ -61,8 +61,12 @@ new class extends Component
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
-                        <x-dropdown-link :href="route('conversation.index')" wire:navigate>
+                        <x-dropdown-link :href="route('user.conversation.index')" wire:navigate>
                             {{ __('My Conversations') }}
+                        </x-dropdown-link>
+
+                        <x-dropdown-link :href="route('user.community.index')" wire:navigate>
+                            {{ __('My Communities') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -112,10 +116,13 @@ new class extends Component
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
-                <x-dropdown-link :href="route('conversation.index')" wire:navigate>
+                <x-dropdown-link :href="route('user.conversation.index')" wire:navigate>
                     {{ __('My Conversations') }}
                 </x-dropdown-link>
 
+                <x-dropdown-link :href="route('user.community.index')" wire:navigate>
+                    {{ __('My Communities') }}
+                </x-dropdown-link>
 
                 <!-- Authentication -->
                 <button wire:click="logout" class="w-full text-start">

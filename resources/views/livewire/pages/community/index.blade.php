@@ -4,13 +4,19 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Layout;
 use App\Models\Community;
 use Livewire\WithPagination;
-
+use Illuminate\Support\Facades\Auth;
 
 new #[Layout('layouts.app')] class extends Component {
     protected $communities;
 
     public function mount() {
-        $this->communities = Community::paginate(10);
+        $query = Community::query();
+        if (request()->routeIs('user.community.index')) {
+            $query->whereHas('users', function($q) {
+                $q->where('user_id', Auth::user()->id);
+            });
+        }
+        $this->communities = $query->paginate(10);
     }
 }; ?>
 

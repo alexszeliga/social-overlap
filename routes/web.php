@@ -6,7 +6,8 @@ use Livewire\Volt\Volt;
 Route::middleware('auth')->group(function () {
     Volt::route('/',                                    'pages.home')              ->name('home');
     Volt::route('u/profile',                            'pages.profile')           ->name('profile');
-    Volt::route('u/conversations',                      'pages.conversation.index')->name('conversation.index');
+    Volt::route('u/conversations',                      'pages.conversation.index')->name('user.conversation.index');
+    Volt::route('u/communities',                        'pages.community.index')   ->name('user.community.index');
     Volt::route('contribution/create',                  'pages.contribution.edit') ->name('contribution.create');
     Volt::route('c',                                    'pages.community.index')   ->name('community.index');
     Volt::route('c/create',                             'pages.community.edit')    ->name('community.create');
