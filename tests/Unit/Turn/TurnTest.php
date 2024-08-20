@@ -2,15 +2,20 @@
 
 namespace Tests\Unit\Turn;
 use Tests\TestCase;
+use App\Models\Comment;
 use App\Models\Turn;
 use App\Models\TurnType;
 
 class TurnTest extends TestCase {
     protected $turn;
-
+    protected $root;
     protected function setUp() : void {
         parent::setUp();
-        $this->turn = Turn::factory()->create();
+        $this->root = Comment::factory()->create();
+        $this->turn = Turn::factory()->create([
+            'turnable_id' => $this->root->id,
+            'turnable_type' => $this->root::class,
+        ]);
     }
 
     public function testBasicCreation() {
@@ -29,5 +34,9 @@ class TurnTest extends TestCase {
         ]);
 
         $this->assertEquals($dissentTurn->getValue(), -1);
+    }
+
+    public function testCanReturnRoot() {
+        $this->assertInstanceOf(Comment::class, $this->turn->root);
     }
 }
