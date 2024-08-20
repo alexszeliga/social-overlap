@@ -7,11 +7,9 @@ use App\Models\TurnType;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-
-
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Turn extends Model
 {
@@ -29,9 +27,9 @@ class Turn extends Model
         return $this->belongsTo(TurnType::class);
     }
 
-    public function root(): HasOne
+    public function root(): MorphTo
     {
-        return $this->hasOne($this->turnable_type, 'id', 'turnable_id');
+        return $this->morphTo(__FUNCTION__,'turnable_type', 'turnable_id');
     }
 
     public function getValue() 
