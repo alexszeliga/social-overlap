@@ -9,6 +9,7 @@ use App\Models\Contribution;
 use App\Models\Comment;
 use App\Models\Turn;
 use App\Models\TurnType;
+use App\Models\User;
 use Carbon\Carbon;
 
 class CommunityContributionTest extends TestCase
@@ -74,5 +75,19 @@ class CommunityContributionTest extends TestCase
 
     public function testCanReturnContribution() {
         $this->assertTrue($this->contribution->is($this->conversation->contribution));
+    }
+
+    
+    public function testKnowsIfUserHasTurned() {
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+        $turn1 = Turn::factory()->create([
+            'user_id' => $user1->id,
+            'turnable_id' => $this->conversation->id,
+            'turnable_type' => $this->conversation::class,
+            'turn_type_id' => TurnType::factory()->support()->create()->id,
+        ]);
+        $this->assertTrue($this->conversation->userHasTurned($user1));
+        $this->assertFalse($this->conversation->userHasTurned($user2));
     }
 }

@@ -90,4 +90,17 @@ class CommentTest extends TestCase
         ]);
         $this->assertTrue($branchComment->root->is($this->comment));
     }
+
+    public function testKnowsIfUserHasTurned() {
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+        $turn1 = Turn::factory()->create([
+            'user_id' => $user1->id,
+            'turnable_id' => $this->comment->id,
+            'turnable_type' => $this->comment::class,
+            'turn_type_id' => TurnType::factory()->support()->create()->id,
+        ]);
+        $this->assertTrue($this->comment->userHasTurned($user1));
+        $this->assertFalse($this->comment->userHasTurned($user2));
+    }
 }
