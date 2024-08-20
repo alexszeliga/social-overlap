@@ -35,11 +35,17 @@ class ProcessTurn implements ShouldQueue
      */
     public function handle(): void
     {
-        Turn::create([
+        $turn = Turn::withTrashed()->firstOrNew([
             'user_id' => $this->user->id,
             'turnable_id' => $this->root->id,
-            'turnable_type' => $this->root::class,
-            'turn_type_id' => $this->turnType->id,
+            'turnable_type' => $this->root::class
         ]);
+        if ($this->turnType->id === $turn->turn_type_id) {
+            $turn->trashed() ? $turn->restore() : $turn->delete(); 
+        } else {
+            $turn->turn_type_id = $this->turnType->id;
+            $turn->save();
+        }
+
     }
 }
