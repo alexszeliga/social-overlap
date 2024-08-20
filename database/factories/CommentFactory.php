@@ -25,11 +25,10 @@ class CommentFactory extends Factory
      */
     public function definition(): array
     {
-        $conversation_id = static::$community_contribution_id ??= CommunityContribution::factory()->create()->id;
         return [
-            'community_contribution_id' => $conversation_id,
+            'community_contribution_id' => static::$community_contribution_id ??= CommunityContribution::factory()->create()->id,
             'user_id' => static::$user_id ??= User::factory()->create()->id,
-            'commentable_id' => static::$commentable_id ??= $conversation_id,
+            'commentable_id' => static::$commentable_id ??= CommunityContribution::factory()->create()->id,
             'commentable_type' => static::$commentable_type ??= CommunityContribution::class,
             'body' => fake()->text(),
         ];
