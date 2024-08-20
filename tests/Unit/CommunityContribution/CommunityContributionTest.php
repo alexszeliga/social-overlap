@@ -67,7 +67,7 @@ class CommunityContributionTest extends TestCase
         $turn1 = Turn::factory()->create([
             'turnable_id' => $this->conversation->id,
             'turnable_type' => $this->conversation::class,
-            'turn_type_id' => TurnType::factory()->support()->create()->id,
+            'turn_type_id' => TurnType::find(TurnType::SUPPORT)->id,
         ]);
 
         $this->assertEquals($this->conversation->getScore(), 1);
@@ -85,7 +85,7 @@ class CommunityContributionTest extends TestCase
             'user_id' => $user1->id,
             'turnable_id' => $this->conversation->id,
             'turnable_type' => $this->conversation::class,
-            'turn_type_id' => TurnType::factory()->support()->create()->id,
+            'turn_type_id' => TurnType::find(TurnType::SUPPORT)->id,
         ]);
         $this->assertTrue($this->conversation->userHasTurned($user1));
         $this->assertFalse($this->conversation->userHasTurned($user2));

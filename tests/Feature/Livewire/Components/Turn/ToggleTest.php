@@ -39,7 +39,7 @@ class ToggleTest extends TestCase {
 
     public function testTogglingTurnQueuesTurnJob() {
         Queue::fake();
-        $support = TurnType::factory()->support()->create();
+        $support = TurnType::find(TurnType::SUPPORT);
         Volt::actingAs($this->user)
             ->test('components.turn.toggle', ['root' => $this->root])
             ->call('toggleTurn', type: $support->id);
@@ -47,7 +47,7 @@ class ToggleTest extends TestCase {
     }
 
     public function testProcessTurnInsertsTurn() {
-        $support = TurnType::factory()->support()->create();
+        $support = TurnType::find(TurnType::SUPPORT);
         $job = new ProcessTurn($support, $this->user, $this->root);
         $job->handle();
         $turn = Turn::where('user_id', $this->user->id)->where('turnable_id', $this->root->id)->sole();

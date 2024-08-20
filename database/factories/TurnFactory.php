@@ -28,7 +28,7 @@ class TurnFactory extends Factory
             'user_id' => static::$user_id ??= User::factory()->create()->id,
             'turnable_id' => static::$turnable_id ??= Comment::factory()->create()->id,
             'turnable_type' => static::$turnable_type ??= Comment::class,
-            'turn_type_id' => static::$turn_type_id ??= TurnType::factory()->support()->create()->id,
+            'turn_type_id' => static::$turn_type_id ??= TurnType::find(TurnType::SUPPORT)->id,
         ];
     }
 }

@@ -24,13 +24,13 @@ class TurnTest extends TestCase {
 
     public function testCanReturnValueOfTurnType() {
         $supportTurn = Turn::factory()->create([
-            'turn_type_id' => TurnType::factory()->support()->create()->id,
+            'turn_type_id' => TurnType::find(TurnType::SUPPORT)->id,
         ]);
 
         $this->assertEquals($supportTurn->getValue(), 1);
 
         $dissentTurn = Turn::factory()->create([
-            'turn_type_id' => TurnType::factory()->dissent()->create()->id,
+            'turn_type_id' => TurnType::find(TurnType::DISSENT)->id,
         ]);
 
         $this->assertEquals($dissentTurn->getValue(), -1);

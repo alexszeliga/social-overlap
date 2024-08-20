@@ -76,7 +76,7 @@ class CommentTest extends TestCase
         $turn1 = Turn::factory()->create([
             'turnable_id' => $this->comment->id,
             'turnable_type' => $this->comment::class,
-            'turn_type_id' => TurnType::factory()->support()->create()->id,
+            'turn_type_id' => TurnType::find(TurnType::SUPPORT)->id,
         ]);
 
         $this->assertEquals($this->comment->getScore(), 1);
@@ -98,7 +98,7 @@ class CommentTest extends TestCase
             'user_id' => $user1->id,
             'turnable_id' => $this->comment->id,
             'turnable_type' => $this->comment::class,
-            'turn_type_id' => TurnType::factory()->support()->create()->id,
+            'turn_type_id' => TurnType::find(TurnType::SUPPORT)->id,
         ]);
         $this->assertTrue($this->comment->userHasTurned($user1));
         $this->assertFalse($this->comment->userHasTurned($user2));
