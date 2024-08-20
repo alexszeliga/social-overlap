@@ -30,9 +30,9 @@ class Comment extends Model
         return $this->hasOne(CommunityContribution::class, 'id', 'community_contribution_id');
     }
 
-    public function commentable() : MorphTo 
+    public function root() : MorphTo 
     {
-        return $this->morphTo();
+        return $this->morphTo(__FUNCTION__, 'commentable_type', 'commentable_id');
     }
 
     public function comments() : MorphMany

@@ -81,4 +81,13 @@ class CommentTest extends TestCase
 
         $this->assertEquals($this->comment->getScore(), 1);
     }
+
+    public function testCanReturnRootModel() {
+        $branchComment = Comment::factory()->create([
+            'community_contribution_id' => $this->comment->conversation->id,
+            'commentable_id' => $this->comment->id,
+            'commentable_type' => $this->comment::class,
+        ]);
+        $this->assertTrue($branchComment->root->is($this->comment));
+    }
 }
