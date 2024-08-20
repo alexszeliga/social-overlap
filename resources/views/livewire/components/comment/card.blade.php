@@ -36,7 +36,7 @@ new class extends Component {
         </div>
         <x-p>{{ $comment->body }}</x-p>
         <div>
-            <livewire:components.turn.toggle :root="$comment"/>
+            <livewire:components.turn.toggle :root="$comment" :key="'vote-' . $comment->id"/>
         </div>
         @if($showForm)
             <livewire:components.comment.form :conversation="$conversation" :root="$root" :key="$root->id"/>

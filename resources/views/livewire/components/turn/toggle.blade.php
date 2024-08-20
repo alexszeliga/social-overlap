@@ -2,6 +2,9 @@
 
 use Livewire\Volt\Component;
 use App\Models\TurnType;
+use App\Jobs\ProcessTurn;
+use Illuminate\Support\Facades\Auth;
+
 
 new class extends Component {
     public $root;
@@ -13,6 +16,7 @@ new class extends Component {
         else {
             $this->userVote = $type->name;
         }
+        ProcessTurn::dispatch($type, Auth()->user(), $this->root);
     }
 }; ?>
 

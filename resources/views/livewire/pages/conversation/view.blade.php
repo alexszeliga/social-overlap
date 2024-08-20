@@ -42,6 +42,7 @@ new #[Layout('layouts.app')] class extends Component {
                 <x-primary-button wire:click="$toggle('showRootComment')">
                     Comment
                 </x-primary-button>
+                <livewire:components.turn.toggle :root="$conversation" key="vote-{{$conversation->id}}" />
                 @endif
                 <x-secondary-button-link :href="$conversation->contribution->url" target="_BLANK">
                     Visit
