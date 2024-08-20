@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Community;
 use App\Models\Contribution;
 use App\Models\Turn;
+use App\Turnable;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CommunityContribution extends Pivot
 {
-    use HasFactory, SoftDeletes, HasUuids;
+    use HasFactory, SoftDeletes, HasUuids, Turnable;
 
     protected $keyType = 'string';
     public $incrementing = false;
@@ -40,9 +41,5 @@ class CommunityContribution extends Pivot
     public function turns() : MorphMany
     {
         return $this->morphMany(Turn::class, 'turnable');
-    }
-
-    public function getScore() {
-        return $this->turns->map(fn($t)=>$t->getValue())->sum();
     }
 }

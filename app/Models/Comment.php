@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\CommunityContribution;
 use App\Models\Turn;
+use App\Turnable;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes;
+    use HasFactory, HasUuids, SoftDeletes, Turnable;
 
     protected $fillable = [
         'community_contribution_id',
@@ -48,9 +49,5 @@ class Comment extends Model
     public function turns() : MorphMany
     {
         return $this->morphMany(Turn::class, 'turnable');
-    }
-
-    public function getScore() {
-        return $this->turns->map(fn($t)=>$t->getValue())->sum();
     }
 }
