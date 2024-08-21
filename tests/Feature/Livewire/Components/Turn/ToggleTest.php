@@ -9,7 +9,9 @@ use App\Models\Community;
 use App\Models\CommunityContribution;
 use App\Models\Contribution;
 use App\Jobs\ProcessTurn;
+use App\Events\TurnProcessed;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 
 use Livewire\Volt\Volt;
@@ -83,5 +85,15 @@ class ToggleTest extends TestCase {
         $this->root->refresh();
         $this->assertEquals($this->root->getScore(), -2);
         DB::rollback();
+    }
+
+    public function testProcessTurnFiresBroadcastEventForRootModel() {
+        Event::fake();
+        $support = TurnType::find(TurnType::SUPPORT);
+        $job = new ProcessTurn($support, $this->user, $this->root);
+        $job->handle();
+        Event::assertDispatched(TurnProcessed::class, function ($event) {
+            return $event->rootId === $this->root->id;
+        });
     }
 }

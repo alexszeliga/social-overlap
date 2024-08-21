@@ -4,19 +4,43 @@ use Livewire\Volt\Component;
 use App\Models\TurnType;
 use App\Jobs\ProcessTurn;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On; 
 
 new class extends Component {
     public $root;
-    public string $userVote = "";
+    public $score;
+    public string $userVote;
+
+    public function getListeners() {
+        return [
+            "echo:turn.{$this->root->id},TurnProcessed" => 'handleTurnProcessed'
+        ];
+    }
+
     public function toggleTurn(TurnType $type) {
         if ($this->userVote === $type->name) {
+            $this->score -= $type->value;
             $this->userVote = "";
         } 
         else {
+            $this->score += $type->value;
             $this->userVote = $type->name;
         }
-        ProcessTurn::dispatch($type, Auth()->user(), $this->root);
+        ProcessTurn::dispatch($type, Auth::user(), $this->root);
+    }
+
+    public function handleTurnProcessed($event) {
+        $this->getRootScore();
+    }
+
+    public function mount() {
+        $this->userVote = $this->root->getUserSupportTypeName(Auth::user());
+        $this->getRootScore();
+    }
+
+    private function getRootScore() {
+        $this->score = $this->root->getScore();
     }
 }; ?>
 

@@ -94,7 +94,7 @@ class CommentTest extends TestCase
     public function testKnowsIfUserHasTurned() {
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
-        $turn1 = Turn::factory()->create([
+        Turn::factory()->create([
             'user_id' => $user1->id,
             'turnable_id' => $this->comment->id,
             'turnable_type' => $this->comment::class,
@@ -102,5 +102,28 @@ class CommentTest extends TestCase
         ]);
         $this->assertTrue($this->comment->userHasTurned($user1));
         $this->assertFalse($this->comment->userHasTurned($user2));
+    }
+
+    public function testCanGetUserTurnType() {
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+        $user3 = User::factory()->create();
+        $support = TurnType::find(TurnType::SUPPORT);
+        $dissent = TurnType::find(TurnType::DISSENT);
+        Turn::factory()->create([
+            'user_id' => $user1->id,
+            'turnable_id' => $this->comment->id,
+            'turnable_type' => $this->comment::class,
+            'turn_type_id' => $support->id,
+        ]);
+        Turn::factory()->create([
+            'user_id' => $user2->id,
+            'turnable_id' => $this->comment->id,
+            'turnable_type' => $this->comment::class,
+            'turn_type_id' => $dissent->id,
+        ]);
+        $this->assertEquals($this->comment->getUserSupportTypeName($user1), $support->name);
+        $this->assertEquals($this->comment->getUserSupportTypeName($user2), $dissent->name);
+        $this->assertEquals($this->comment->getUserSupportTypeName($user3), '');
     }
 }
