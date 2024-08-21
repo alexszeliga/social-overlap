@@ -40,9 +40,10 @@ class ProcessTurn implements ShouldQueue
         ]);
         if ($this->turnType->id === $turn->turn_type_id) {
             $turn->trashed() ? $turn->restore() : $turn->delete(); 
-        } else {
-            $turn->turn_type_id = $this->turnType->id;
-            $turn->save();
+        }
+        $turn->turn_type_id = $this->turnType->id;
+        if ($turn->isDirty()) {
+            $turn->trashed() ? $turn->restore() : $turn->save();
         }
         TurnProcessed::dispatch($this->user, $this->turnType, $this->root->id, $this->root::class);
     }
