@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\CommunityContribution;
-use App\Models\Turn;
 use App\Turnable;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -44,10 +43,5 @@ class Comment extends Model
 
     public function user() : HasOne {
         return $this->hasOne(User::class, 'id', 'user_id');
-    }
-    
-    public function turns() : MorphMany
-    {
-        return $this->morphMany(Turn::class, 'turnable');
     }
 }

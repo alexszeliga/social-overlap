@@ -3,6 +3,10 @@
 namespace App;
 
 use App\Models\User;
+use App\Models\Turn;
+
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+
 
 trait Turnable
 {
@@ -12,5 +16,10 @@ trait Turnable
 
     public function userHasTurned(User $user) {
         return $this->turns->pluck('user_id')->contains($user->id);
+    }
+
+    public function turns() : MorphMany
+    {
+        return $this->morphMany(Turn::class, 'turnable');
     }
 }
