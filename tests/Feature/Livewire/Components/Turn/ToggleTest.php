@@ -41,16 +41,16 @@ class ToggleTest extends TestCase {
 
     public function testTogglingTurnQueuesTurnJob() {
         Queue::fake();
-        $support = TurnType::find(TurnType::SUPPORT);
+        $support = TurnType::support();
         Volt::actingAs($this->user)
             ->test('components.turn.toggle', ['root' => $this->root])
-            ->call('toggleTurn', type: $support->id);
+            ->call('toggleSupport');
         Queue::assertPushed(ProcessTurn::class, 1);
     }
 
     public function testProcessTurnInsertsTurn() {
         DB::beginTransaction();        
-        $support = TurnType::find(TurnType::SUPPORT);
+        $support = TurnType::support();
         $job = new ProcessTurn($support, $this->user, $this->root);
         $job->handle();
         $turn = Turn::where('user_id', $this->user->id)->where('turnable_id', $this->root->id)->sole();
@@ -61,8 +61,8 @@ class ToggleTest extends TestCase {
     public function testProcessTurnScoreDelta() {
         DB::beginTransaction();
         $this->assertEquals($this->root->getScore(), 0);
-        $support = TurnType::find(TurnType::SUPPORT);
-        $dissent = TurnType::find(TurnType::DISSENT);
+        $support = TurnType::support();
+        $dissent = TurnType::dissent();
         $job1 = new ProcessTurn($support, $this->user, $this->root);
         $job1->handle();
         $this->root->refresh();
@@ -89,7 +89,7 @@ class ToggleTest extends TestCase {
 
     public function testProcessTurnFiresBroadcastEventForRootModel() {
         Event::fake();
-        $support = TurnType::find(TurnType::SUPPORT);
+        $support = TurnType::support();
         $job = new ProcessTurn($support, $this->user, $this->root);
         $job->handle();
         Event::assertDispatched(TurnProcessed::class, function ($event) {
