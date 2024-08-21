@@ -10,6 +10,7 @@ new class extends Component {
     public $root;
     public $score;
     public string $userVote;
+    public bool $loading = false;
 
     public function getListeners() {
         return [
@@ -18,25 +19,23 @@ new class extends Component {
     }
 
     public function toggleSupport() {
+        $this->loading = true;
         $support = TurnType::support();
         if ($this->userVote === $support->name) {
-            $this->score -= $support->value;
             $this->userVote = "";
         } 
         else {
-            $this->score += $support->value;
             $this->userVote = $support->name;
         }
         ProcessTurn::dispatch($support, Auth::user(), $this->root);
     }
 
     public function toggleDissent() {
+        $this->loading = true;
         $dissent = TurnType::dissent();
         if ($this->userVote === $dissent->name) {
-            $this->score -= $dissent->value;
             $this->userVote = "";
         } else {
-            $this->score += $dissent->value;
             $this->userVote = $dissent->name;
         }
         ProcessTurn::dispatch($dissent, Auth::user(), $this->root);
@@ -44,6 +43,7 @@ new class extends Component {
 
     public function handleTurnProcessed($event) {
         $this->getRootScore();
+        $this->loading = false;
     }
 
     public function mount() {
@@ -67,7 +67,9 @@ new class extends Component {
             </x-on-bg>
         </button>
         <div class="border p-1 border-gray-300 dark:border-gray-500">
-            <x-p>{{ $root->getScore() }}</x-p>
+            <div class="@if($loading) animate-bounce @endif">
+                <x-p>{{ $root->getScore() }}</x-p>
+            </div>
         </div>
         <button class="border rounded-r-md p-1 border-gray-300 dark:border-gray-500" wire:click="toggleDissent">
             <x-on-bg>
