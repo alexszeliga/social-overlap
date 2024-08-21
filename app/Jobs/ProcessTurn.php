@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\TurnProcessed;
 use App\Models\Turn;
 use App\Models\TurnType;
 use App\Models\User;
@@ -46,6 +47,6 @@ class ProcessTurn implements ShouldQueue
             $turn->turn_type_id = $this->turnType->id;
             $turn->save();
         }
-
+        TurnProcessed::dispatch($this->user, $this->turnType, $this->root->id, $this->root::class);
     }
 }
