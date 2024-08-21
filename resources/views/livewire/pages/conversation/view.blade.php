@@ -10,7 +10,6 @@ use App\Models\CommunityContribution;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 new #[Layout('layouts.app')] class extends Component {
     public CommunityContribution $conversation;

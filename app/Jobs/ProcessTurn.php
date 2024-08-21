@@ -7,14 +7,11 @@ use App\Models\Turn;
 use App\Models\TurnType;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-
-
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 
 class ProcessTurn implements ShouldQueue
 {

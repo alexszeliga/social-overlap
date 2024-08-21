@@ -4,7 +4,6 @@ use Livewire\Volt\Component;
 use App\Models\TurnType;
 use App\Jobs\ProcessTurn;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On; 
 
 new class extends Component {
