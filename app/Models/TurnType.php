@@ -10,4 +10,12 @@ class TurnType extends Model
 
     const SUPPORT = 1;
     const DISSENT = 2;
+
+    public static function support(): TurnType {
+        return self::find(self::SUPPORT);
+    }
+
+    public static function dissent(): TurnType {
+        return self::find(self::DISSENT);
+    }
 }
