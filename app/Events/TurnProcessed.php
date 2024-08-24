@@ -16,25 +16,16 @@ class TurnProcessed implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public User $user;
-    public TurnType $type;
     public string $rootId;
-    public string $rootClass;
 
     /**
      * Create a new event instance.
      */
     public function __construct(
-        User $user,
-        TurnType $type,
         string $rootId,
-        string $rootClass
     )
     {
-        $this->user = $user;
-        $this->type = $type;
         $this->rootId = $rootId;
-        $this->rootClass = $rootClass;
     }
 
     /**
