@@ -23,7 +23,12 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function mount(Community $community) {
         $this->community = $community;
-        $this->conversations = $this->community->conversations()->paginate(10);
+    }
+    
+    public function with() {
+        return [
+            'conversations' => $this->community->conversations()->paginate(10),
+        ];
     }
 }; ?>
 
@@ -48,13 +53,15 @@ new #[Layout('layouts.app')] class extends Component {
             </div>
         </div>
     </x-header>
+    @if($conversations->count())
     <x-content-card>
         <x-h2>Conversations</x-h2>
         <div class="space-y-6">
-            @foreach($this->conversations as $conversation)
+            @foreach($conversations as $conversation)
             <x-conversation.card :conversation="$conversation" :hideCommunity="true" />
             @endforeach
         </div>
-        {{ $this->conversations->links() }}
+        {{ $conversations->links() }}
     </x-content-card>
+    @endif
 </div>

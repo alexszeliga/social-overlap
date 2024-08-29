@@ -14,12 +14,13 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CommunityContribution extends Pivot
+class Conversation extends Pivot
 {
     use HasFactory, SoftDeletes, HasUuids, Turnable;
 
     protected $keyType = 'string';
     public $incrementing = false;
+    protected $table = 'conversations';
 
     public function community() : HasOne 
     {

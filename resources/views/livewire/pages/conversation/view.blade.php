@@ -6,16 +6,15 @@ use Livewire\Attributes\Layout;
 use App\Models\Comment;
 use App\Models\Community;
 use App\Models\Contribution;
-use App\Models\CommunityContribution;
+use App\Models\Conversation;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithPagination;
 
 new #[Layout('layouts.app')] class extends Component {
-    public CommunityContribution $conversation;
+    public Conversation $conversation;
     public bool $showRootComment = false;
-    protected $comments;
 
     #[On('comment-created')]
     public function commentCreated($rootId) {
@@ -26,11 +25,18 @@ new #[Layout('layouts.app')] class extends Component {
     }
 
     public function mount(Community $community, Contribution $contribution) {
-        $this->conversation = CommunityContribution::where('community_id', '=', $community->id)
-                                                   ->where('contribution_id', '=', $contribution->id)
-                                                   ->sole();
-        $this->comments = $this->conversation->comments()->paginate(10);
+        $this->conversation = Conversation::where('community_id', '=', $community->id)
+                                          ->where('contribution_id', '=', $contribution->id)
+                                          ->sole();
+
     }
+
+    public function with() {
+        return [
+            'comments' => $this->conversation->comments()->paginate(10),
+        ];
+    }
+
 }; ?>
 
 <div>
@@ -57,11 +63,11 @@ new #[Layout('layouts.app')] class extends Component {
         <livewire:components.comment.form :conversation="$conversation" :root="$conversation" :key="$conversation->id" />
     </x-content-card>
     @endif
-    @if($conversation->comments->count() > 0)
+    @if($comments->count())
     <x-content-card>
         <x-h2>The Conversation</x-h2>
         <div class="space-y-6">
-            @foreach($this->comments as $comment)
+            @foreach($comments as $comment)
                 <livewire:components.comment.card 
                     :comment="$comment"
                     :conversation="$conversation"
@@ -70,7 +76,7 @@ new #[Layout('layouts.app')] class extends Component {
             
             @endforeach
         </div>
-        {{ $this->comments->links() }}
+        {{ $comments->links() }}
     </x-content-card>
     @endif
 </div>

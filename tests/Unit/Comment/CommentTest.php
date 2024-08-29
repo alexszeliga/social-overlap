@@ -4,7 +4,7 @@ namespace Tests\Unit\Comment;
 
 use Tests\TestCase;
 use App\Models\Comment;
-use App\Models\CommunityContribution;
+use App\Models\Conversation;
 use App\Models\User;
 use App\Models\Turn;
 use App\Models\TurnType;
@@ -25,7 +25,7 @@ class CommentTest extends TestCase
 
     public function testCanAttachBranchComment() {
         $branchComment = Comment::factory()->create([
-            'community_contribution_id' => $this->comment->conversation->id,
+            'conversation_id' => $this->comment->conversation->id,
             'commentable_id' => $this->comment->id,
             'commentable_type' => $this->comment::class,
         ]);
@@ -41,22 +41,22 @@ class CommentTest extends TestCase
     }
 
     public function testCanReturnConversation() {
-        $conversation = CommunityContribution::factory()->create();
+        $conversation = Conversation::factory()->create();
         $comment = Comment::factory()->create([
-            'community_contribution_id' => $conversation->id,
+            'conversation_id' => $conversation->id,
         ]);
         $this->assertTrue($comment->conversation->is($conversation));
     }
 
     public function testBranchCommentsAreReturnedMostRecentFirst() {
         $earlyComment = Comment::factory()->create([
-            'community_contribution_id' => $this->comment->conversation->id,
+            'conversation_id' => $this->comment->conversation->id,
             'commentable_id' => $this->comment->id,
             'commentable_type' => $this->comment::class,
             'created_at' => Carbon::now()->subHour(),
         ]);
         $recentComment = Comment::factory()->create([
-            'community_contribution_id' => $this->comment->conversation->id,
+            'conversation_id' => $this->comment->conversation->id,
             'commentable_id' => $this->comment->id,
             'commentable_type' => $this->comment::class,
             'created_at' => Carbon::now(),
@@ -84,7 +84,7 @@ class CommentTest extends TestCase
 
     public function testCanReturnRootModel() {
         $branchComment = Comment::factory()->create([
-            'community_contribution_id' => $this->comment->conversation->id,
+            'conversation_id' => $this->comment->conversation->id,
             'commentable_id' => $this->comment->id,
             'commentable_type' => $this->comment::class,
         ]);

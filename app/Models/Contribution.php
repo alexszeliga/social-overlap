@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Community;
-use App\Models\CommunityContribution;
+use App\Models\Conversation;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,8 +24,8 @@ class Contribution extends Model
     }
 
     public function communities() : BelongsToMany {
-        return $this->belongsToMany(Community::class)
-                    ->using(CommunityContribution::class)
+        return $this->belongsToMany(Community::class, 'conversations')
+                    ->using(Conversation::class)
                     ->withTimestamps();
     }
 

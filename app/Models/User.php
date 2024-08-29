@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\Community;
 use App\Models\CommunityUser;
 use App\Models\Contribution;
-use App\Models\CommunityContribution;
+use App\Models\Conversation;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -52,7 +52,7 @@ class User extends Authenticatable
     } 
 
     public function conversations(): HasManyThrough {
-        return $this->hasManyThrough(CommunityContribution::class, Contribution::class);
+        return $this->hasManyThrough(Conversation::class, Contribution::class);
     }
     public function claimCommunity(Community $community) : void {
         $this->communities()->attach($community);
@@ -64,7 +64,7 @@ class User extends Authenticatable
 
     public function homepageQuery() 
     {
-        return CommunityContribution::whereHas('community.users', function ($query) {
+        return Conversation::whereHas('community.users', function ($query) {
             $query->where('users.id', '=', $this->id);
         });
     }

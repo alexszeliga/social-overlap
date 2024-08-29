@@ -7,16 +7,16 @@ use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
 
 new #[Layout('layouts.app')] class extends Component {
-    protected $communities;
-
-    public function mount() {
+    public function with() {
         $query = Community::query();
         if (request()->routeIs('user.community.index')) {
             $query->whereHas('users', function($q) {
                 $q->where('user_id', Auth::user()->id);
             });
         }
-        $this->communities = $query->paginate(10);
+        return [
+            'communities' => $query->paginate(10),
+        ];
     }
 }; ?>
 
@@ -33,9 +33,10 @@ new #[Layout('layouts.app')] class extends Component {
             </div>
         </div>
     </x-header>
+    @if($communities->count())
     <x-content-card>
         <div class="space-y-6">
-            @foreach($this->communities as $c)
+            @foreach($communities as $c)
             <div>
                 <a href="{{route('community.view', ['community' => $c])}}">
                     <x-h3>
@@ -48,6 +49,7 @@ new #[Layout('layouts.app')] class extends Component {
             </div>
             @endforeach
         </div>
-        {{ $this->communities->links() }}
+        {{ $communities->links() }}
     </x-content-card>
+    @endif
 </div>

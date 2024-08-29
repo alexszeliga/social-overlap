@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Unit\CommunityContribution;
+namespace Tests\Unit\Conversation;
 
 use Tests\TestCase;
 use App\Models\Community;
-use App\Models\CommunityContribution;
+use App\Models\Conversation;
 use App\Models\Contribution;
 use App\Models\Comment;
 use App\Models\Turn;
@@ -12,7 +12,7 @@ use App\Models\TurnType;
 use App\Models\User;
 use Carbon\Carbon;
 
-class CommunityContributionTest extends TestCase
+class ConversationTest extends TestCase
 {
     protected $conversation, $contribution;
 
@@ -21,18 +21,18 @@ class CommunityContributionTest extends TestCase
         $this->contribution = Contribution::factory()->create();
         $com = Community::factory()->create();
         $this->contribution->addCommunity($com);
-        $this->conversation = CommunityContribution::where('contribution_id', '=', $this->contribution->id)
+        $this->conversation = Conversation::where('contribution_id', '=', $this->contribution->id)
                                                    ->where('community_id', '=', $com->id)
                                                    ->sole();
     }
 
     public function testBasicCreation() {
-        $this->assertInstanceOf(CommunityContribution::class, $this->conversation);
+        $this->assertInstanceOf(Conversation::class, $this->conversation);
     }
 
     public function testCanAttachRootComments() {
         $comment = Comment::factory()->create([
-            'community_contribution_id' => $this->conversation->id,
+            'conversation_id' => $this->conversation->id,
             'commentable_id' => $this->conversation->id,
             'commentable_type' => $this->conversation::class
         ]);
@@ -41,13 +41,13 @@ class CommunityContributionTest extends TestCase
 
     public function testRootCommentsAreReturnedMostRecentFirst() {
         $earlyComment = Comment::factory()->create([
-            'community_contribution_id' => $this->conversation->id,
+            'conversation_id' => $this->conversation->id,
             'commentable_id' => $this->conversation->id,
             'commentable_type' => $this->conversation::class,
             'created_at' => Carbon::now()->subHour(),
         ]);
         $recentComment = Comment::factory()->create([
-            'community_contribution_id' => $this->conversation->id,
+            'conversation_id' => $this->conversation->id,
             'commentable_id' => $this->conversation->id,
             'commentable_type' => $this->conversation::class,
             'created_at' => Carbon::now(),

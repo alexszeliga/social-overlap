@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('community_contribution_id');
-            $table->foreign('community_contribution_id')->references('id')->on('community_contribution');
+            $table->uuid('conversation_id');
+            $table->foreign('conversation_id')->references('id')->on('conversations');
             $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->uuid('commentable_id');

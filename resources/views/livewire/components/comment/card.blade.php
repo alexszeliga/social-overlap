@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Comment;
-use App\Models\CommunityContribution;
+use App\Models\Conversation;
 
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
@@ -15,7 +15,7 @@ new class extends Component {
     public bool $hideComments = true;
 
     public Comment $comment;
-    public CommunityContribution $conversation;
+    public Conversation $conversation;
     public $root;
 
     #[On('comment-created')]

@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Comment;
-use App\Models\CommunityContribution;
+use App\Models\Conversation;
 
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
@@ -10,14 +10,14 @@ new class extends Component {
     #[Validate('required')]
     public string $body;
 
-    public CommunityContribution $conversation;
+    public Conversation $conversation;
     public $root;
 
     public function submit() 
     {
         $this->validate();
         Comment::create([
-            'community_contribution_id' => $this->conversation->id,
+            'conversation_id' => $this->conversation->id,
             'user_id' => Auth::user()->id,
             'commentable_id' => $this->root->id,
             'commentable_type' => $this->root::class,

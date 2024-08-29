@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Turn;
 use App\Models\TurnType;
 use App\Models\Community;
-use App\Models\CommunityContribution;
+use App\Models\Conversation;
 use App\Models\Contribution;
 use App\Jobs\ProcessTurn;
 use App\Events\TurnProcessed;
@@ -33,7 +33,7 @@ class ToggleTest extends TestCase {
         $contribution = Contribution::factory()->create([
             'user_id' => $this->user->id
         ]);
-        $this->root = CommunityContribution::factory()->create([
+        $this->root = Conversation::factory()->create([
             'community_id' => $community->id,
             'contribution_id' => $contribution->id,
         ]);

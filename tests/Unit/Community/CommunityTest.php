@@ -5,7 +5,7 @@ namespace Tests\Unit\Community;
 use Tests\TestCase;
 use App\Models\Community;
 use App\Models\Contribution;
-use App\Models\CommunityContribution;
+use App\Models\Conversation;
 use App\Models\User;
 
 class CommunityTest extends TestCase
@@ -46,7 +46,7 @@ class CommunityTest extends TestCase
 
     public function testCanGetConversations() 
     {
-        $conversation = CommunityContribution::factory()->create([
+        $conversation = Conversation::factory()->create([
             'community_id' => $this->community->id,
         ]);
         $this->assertTrue($this->community->conversations->contains($conversation));

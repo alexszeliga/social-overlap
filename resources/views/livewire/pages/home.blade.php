@@ -7,11 +7,12 @@ use Livewire\WithPagination;
 
 
 new #[Layout('layouts.app')] class extends Component {
-    protected $conversations;
-
-    public function mount() {
+    public function with() {
         $query = Auth::user()->homepageQuery();
-        $this->conversations = $query->paginate(10);
+
+        return [
+            'conversations' => $query->paginate(10),
+        ];
     }
 }; ?>
 
@@ -21,15 +22,17 @@ new #[Layout('layouts.app')] class extends Component {
             {{ __('Social Overlaps') }}
         </x-h1>
     </x-header>
+    @if($conversations->count())
     <x-content-card>
         <x-h2>
             Community Conversations
         </x-h2>
         <div class="space-y-6">
-        @foreach($this->conversations as $conversation)
+        @foreach($conversations as $conversation)
             <x-conversation.card :conversation="$conversation" />
         @endforeach
         </div>
-        {{ $this->conversations->links() }}
+        {{ $conversations->links() }}
     </x-content-card>
+    @endif
 </div>

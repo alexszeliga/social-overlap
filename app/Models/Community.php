@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
-use App\Models\CommunityContribution;
+use App\Models\Conversation;
 use App\Models\Contribution;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -44,13 +44,13 @@ class Community extends Model
     }
 
     public function contributions() : BelongsToMany {
-        return $this->belongsToMany(Contribution::class)
-                    ->using(CommunityContribution::class)
+        return $this->belongsToMany(Contribution::class, 'conversations')
+                    ->using(Conversation::class)
                     ->withTimestamps();
     }
 
     public function conversations() : HasMany {
-        return $this->hasMany(CommunityContribution::class, 'community_id', 'id');
+        return $this->hasMany(Conversation::class, 'community_id', 'id');
     }
 
     public function getId():string {

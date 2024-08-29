@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\CommunityContribution;
+use App\Models\Conversation;
 use App\Turnable;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -18,7 +18,7 @@ class Comment extends Model
     use HasFactory, HasUuids, SoftDeletes, Turnable;
 
     protected $fillable = [
-        'community_contribution_id',
+        'conversation_id',
         'user_id',
         'commentable_id',
         'commentable_type',
@@ -27,7 +27,7 @@ class Comment extends Model
 
     public function conversation() : HasOne 
     {
-        return $this->hasOne(CommunityContribution::class, 'id', 'community_contribution_id');
+        return $this->hasOne(Conversation::class, 'id', 'conversation_id');
     }
 
     public function root() : MorphTo 

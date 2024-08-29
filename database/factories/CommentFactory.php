@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
-use App\Models\CommunityContribution;
+use App\Models\Conversation;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class CommentFactory extends Factory
 {
     protected static ?string $user_id;
-    protected static ?string $community_contribution_id;
+    protected static ?string $conversation_id;
     protected static ?string $commentable_id;
     protected static ?string $commentable_type;
 
@@ -26,10 +26,10 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         return [
-            'community_contribution_id' => static::$community_contribution_id ??= CommunityContribution::factory()->create()->id,
+            'conversation_id' => static::$conversation_id ??= Conversation::factory()->create()->id,
             'user_id' => static::$user_id ??= User::factory()->create()->id,
-            'commentable_id' => static::$commentable_id ??= CommunityContribution::factory()->create()->id,
-            'commentable_type' => static::$commentable_type ??= CommunityContribution::class,
+            'commentable_id' => static::$commentable_id ??= Conversation::factory()->create()->id,
+            'commentable_type' => static::$commentable_type ??= Conversation::class,
             'body' => fake()->text(),
         ];
     }

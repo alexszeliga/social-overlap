@@ -5,7 +5,7 @@ namespace Tests\Unit\User;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Community;
-use App\Models\CommunityContribution;
+use App\Models\Conversation;
 use App\Models\Contribution;
 
 class UserTest extends TestCase
@@ -36,7 +36,7 @@ class UserTest extends TestCase
     }
 
     public function testHomepageQueryReturnsClaimedCommunityConversations() {
-        $conversation = CommunityContribution::factory()->create([
+        $conversation = Conversation::factory()->create([
             'community_id' => $this->claimedCommunity->id,
         ]);
         $this->assertTrue($this->user->homepageQuery()->get()->contains($conversation));
@@ -53,7 +53,7 @@ class UserTest extends TestCase
         $contribution = Contribution::factory()->create([
             'user_id' => $this->user->id,
         ]);
-        $conversation = CommunityContribution::factory()->create([
+        $conversation = Conversation::factory()->create([
             'community_id' => $this->claimedCommunity->id,
             'contribution_id' => $contribution->id,
         ]);
