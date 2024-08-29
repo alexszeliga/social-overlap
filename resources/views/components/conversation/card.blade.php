@@ -1,7 +1,7 @@
 @props(['hideCommunity' => false, 'conversation'])
 
 <x-card-border>
-    <div class="flex gap-6 mb-1">
+    <div class="flex gap-6">
         @if(!$hideCommunity)
         <x-community.link :community="$conversation->community"/>
         @endif

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 new #[Layout('layouts.app')] class extends Component {
     public Community $community;
+    protected $conversations;
 
     public function claim() {
         Auth::user()->claimCommunity($this->community);
@@ -22,6 +23,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function mount(Community $community) {
         $this->community = $community;
+        $this->conversations = $this->community->conversations()->paginate(10);
     }
 }; ?>
 
@@ -48,12 +50,11 @@ new #[Layout('layouts.app')] class extends Component {
     </x-header>
     <x-content-card>
         <x-h2>Conversations</x-h2>
-        <ul>
-            @foreach($community->conversations as $conversation)
-            <li>
-                <x-conversation.card :conversation="$conversation" :hideCommunity="true" />
-            </li>
+        <div class="space-y-6">
+            @foreach($this->conversations as $conversation)
+            <x-conversation.card :conversation="$conversation" :hideCommunity="true" />
             @endforeach
-        </ul>
+        </div>
+        {{ $this->conversations->links() }}
     </x-content-card>
 </div>

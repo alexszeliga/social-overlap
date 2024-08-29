@@ -48,14 +48,16 @@ new class extends Component {
                 <div>
                     <x-text-button class="inline" wire:click="$toggle('hideComments')">Show {{ $comment->comments->count() }} comments</x-text-button>
                 </div>
-            @else      
-            @foreach($comment->comments as $subComment)
-                <livewire:components.comment.card 
-                    :comment="$subComment"
-                    :conversation="$conversation"
-                    :root="$subComment"
-                    :key="$subComment->id" />
-            @endforeach
+            @else
+                <div class="space-y-6">      
+                @foreach($comment->comments as $subComment)
+                    <livewire:components.comment.card 
+                        :comment="$subComment"
+                        :conversation="$conversation"
+                        :root="$subComment"
+                        :key="$subComment->id" />
+                @endforeach
+                </div>
                 <div>
                     <x-text-button class="inline" wire:click="$toggle('hideComments')">Hide comments</x-text-button>
                 </div>

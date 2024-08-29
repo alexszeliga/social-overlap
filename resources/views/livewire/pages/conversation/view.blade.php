@@ -10,10 +10,12 @@ use App\Models\CommunityContribution;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
+use Livewire\WithPagination;
 
 new #[Layout('layouts.app')] class extends Component {
     public CommunityContribution $conversation;
     public bool $showRootComment = false;
+    protected $comments;
 
     #[On('comment-created')]
     public function commentCreated($rootId) {
@@ -27,6 +29,7 @@ new #[Layout('layouts.app')] class extends Component {
         $this->conversation = CommunityContribution::where('community_id', '=', $community->id)
                                                    ->where('contribution_id', '=', $contribution->id)
                                                    ->sole();
+        $this->comments = $this->conversation->comments()->paginate(10);
     }
 }; ?>
 
@@ -57,17 +60,17 @@ new #[Layout('layouts.app')] class extends Component {
     @if($conversation->comments->count() > 0)
     <x-content-card>
         <x-h2>The Conversation</x-h2>
-        <ul>
-            @foreach($conversation->comments as $comment)
-                <li wire:key="list-{{ $comment->id }}">
-                    <livewire:components.comment.card 
-                        :comment="$comment"
-                        :conversation="$conversation"
-                        :root="$comment"
-                        :key="$comment->id"/>
-                </li>
+        <div class="space-y-6">
+            @foreach($this->comments as $comment)
+                <livewire:components.comment.card 
+                    :comment="$comment"
+                    :conversation="$conversation"
+                    :root="$comment"
+                    :key="$comment->id"/>
+            
             @endforeach
-        </ul>
+        </div>
+        {{ $this->comments->links() }}
     </x-content-card>
     @endif
 </div>

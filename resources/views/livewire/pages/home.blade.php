@@ -2,9 +2,17 @@
 
 use Livewire\Volt\Component;
 use Livewire\Attributes\Layout;
+use Illuminate\Support\Facades\Auth;
+use Livewire\WithPagination;
+
 
 new #[Layout('layouts.app')] class extends Component {
-    //
+    protected $conversations;
+
+    public function mount() {
+        $query = Auth::user()->homepageQuery();
+        $this->conversations = $query->paginate(10);
+    }
 }; ?>
 
 <div>
@@ -17,12 +25,11 @@ new #[Layout('layouts.app')] class extends Component {
         <x-h2>
             Community Conversations
         </x-h2>
-        <ul>
-            @foreach(Auth::user()->homepageQuery()->get() as $conversation)
-            <li>
-                <x-conversation.card :conversation="$conversation" />
-            </li>
-            @endforeach
-        </ul>
+        <div class="space-y-6">
+        @foreach($this->conversations as $conversation)
+            <x-conversation.card :conversation="$conversation" />
+        @endforeach
+        </div>
+        {{ $this->conversations->links() }}
     </x-content-card>
 </div>
