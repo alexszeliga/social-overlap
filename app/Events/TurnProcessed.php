@@ -15,18 +15,14 @@ use App\Models\TurnType;
 class TurnProcessed implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public string $rootId;
-
+    
     /**
      * Create a new event instance.
      */
     public function __construct(
-        string $rootId,
+        public string $rootId,
     )
-    {
-        $this->rootId = $rootId;
-    }
+    {}
 
     /**
      * Get the channels the event should broadcast on.
