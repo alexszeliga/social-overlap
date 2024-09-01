@@ -18,12 +18,15 @@ new class extends Component {
     public Conversation $conversation;
     public $root;
 
-    #[On('comment-created')]
-    public function commentCreated($rootId) {
-        if ($this->comment->id === $rootId) {
-            $this->reset(['showForm']);
-            $this->conversation->refresh();
-        }
+    public function getListeners() {
+        return [
+            "echo:comment.{$this->comment->id},CommentCreated" => 'commentCreated'
+        ];
+    }
+
+    public function commentCreated() {
+        $this->reset(['showForm']);
+        $this->conversation->refresh();
     }
 }; ?>
 

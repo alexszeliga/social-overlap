@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\InsertComment;
 use App\Models\Comment;
 use App\Models\Conversation;
 
@@ -16,14 +17,12 @@ new class extends Component {
     public function submit() 
     {
         $this->validate();
-        Comment::create([
-            'conversation_id' => $this->conversation->id,
-            'user_id' => Auth::user()->id,
-            'commentable_id' => $this->root->id,
-            'commentable_type' => $this->root::class,
-            'body' => $this->body,
-        ]);
-        $this->dispatch('comment-created', rootId: $this->root->id);
+        InsertComment::dispatch(
+            $this->conversation,
+            Auth::user(),
+            $this->root,
+            $this->body,
+        );
     }
 }; ?>
 

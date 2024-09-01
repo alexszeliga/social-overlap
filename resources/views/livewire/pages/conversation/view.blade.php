@@ -16,19 +16,21 @@ new #[Layout('layouts.app')] class extends Component {
     public Conversation $conversation;
     public bool $showRootComment = false;
 
-    #[On('comment-created')]
-    public function commentCreated($rootId) {
-        if ($this->conversation->id === $rootId) {
-            $this->reset(['showRootComment']);
-            $this->conversation->refresh();
-        }
+    public function getListeners() {
+        return [
+            "echo:comment.{$this->conversation->id},CommentCreated" => 'commentCreated'
+        ];
+    }
+
+    public function commentCreated() {
+        $this->reset(['showRootComment']);
+        $this->conversation->refresh();
     }
 
     public function mount(Community $community, Contribution $contribution) {
         $this->conversation = Conversation::where('community_id', '=', $community->id)
                                           ->where('contribution_id', '=', $contribution->id)
                                           ->sole();
-
     }
 
     public function with() {
