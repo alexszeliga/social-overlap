@@ -2,9 +2,11 @@
 
 namespace Test\Feature\Livewire\Components\Comment;
 
+use App\Events\CommentCreated;
 use App\Jobs\InsertComment;
 use App\Models\Comment;
 use App\Models\User;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use Livewire\Volt\Volt;
 use Livewire\Livewire;
@@ -39,5 +41,16 @@ class FormTest extends TestCase {
         ])->sole();
         $this->assertInstanceOf(Comment::class, $comment);
         $this->assertEquals($comment->body, $bodyText);
+    }
+
+    public function testInsertingCommentBroadcastsToCommentRootModel() {
+        Event::fake();
+        Volt::actingAs($this->user)
+            ->test('components.comment.form', ['conversation' => $this->comment->conversation, 'root' => $this->comment])
+            ->set('body', 'A comment body text')
+            ->call('submit');
+        Event::assertDispatched(CommentCreated::class, function ($event) {
+            return $event->rootId === $this->comment->id;
+        });
     }
 }
