@@ -95,13 +95,15 @@ class AuthenticationTest extends TestCase
     {
         Event::fake();
         $user = User::factory()->create();
+        $ip = app(Request::class)->ip();
+        $throttleKey = Str::lower($user->email).'|'.$ip;
 
-        RateLimiter::hit(Str::lower($user->email).'|'.app(Request::class)->ip());
-        RateLimiter::hit(Str::lower($user->email).'|'.app(Request::class)->ip());
-        RateLimiter::hit(Str::lower($user->email).'|'.app(Request::class)->ip());
-        RateLimiter::hit(Str::lower($user->email).'|'.app(Request::class)->ip());
-        RateLimiter::hit(Str::lower($user->email).'|'.app(Request::class)->ip());
-        RateLimiter::hit(Str::lower($user->email).'|'.app(Request::class)->ip());
+        RateLimiter::hit($throttleKey);
+        RateLimiter::hit($throttleKey);
+        RateLimiter::hit($throttleKey);
+        RateLimiter::hit($throttleKey);
+        RateLimiter::hit($throttleKey);
+        RateLimiter::hit($throttleKey);
 
         Volt::test('pages.auth.login')
             ->set('form.email', $user->email)
@@ -109,8 +111,8 @@ class AuthenticationTest extends TestCase
             ->call('login')
             ->assertHasErrors();
 
-        Event::assertDispatched(Lockout::class, function ($event) {
-            return $event->request->ip() === app(Request::class)->ip();
+        Event::assertDispatched(Lockout::class, function ($event) use ($ip) {
+            return $event->request->ip() === $ip;
         });
 
     }

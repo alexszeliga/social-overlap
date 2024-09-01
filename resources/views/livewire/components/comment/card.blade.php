@@ -38,9 +38,9 @@ new class extends Component {
             <x-h4>{{ $comment->created_at->diffForHumans() }}</x-h4>
         </div>
         <x-p>{{ $comment->body }}</x-p>
-        <livewire:components.turn.toggle :root="$comment" :key="'vote-' . $comment->id"/>
+        <livewire:components.turn.toggle :root="$comment" key="{{'vote-' . $comment->id}}"/>
         @if($showForm)
-            <livewire:components.comment.form :conversation="$conversation" :root="$root" :key="$root->id"/>
+            <livewire:components.comment.form :conversation="$conversation" :root="$root" key="{{'comment-form-'.$root->id}}"/>
         @else
             <div>
                 <x-primary-button wire:click="$toggle('showForm')">Comment</x-primary-button>
@@ -58,7 +58,7 @@ new class extends Component {
                         :comment="$subComment"
                         :conversation="$conversation"
                         :root="$subComment"
-                        :key="$subComment->id" />
+                        key="{{'comment-card-'.$subComment->id}}" />
                 @endforeach
                 </div>
                 <div>
