@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class CommunityUserFactory extends Factory
 {
-    protected static ?string $user_id;
-    protected static ?string $community_id;
     /**
      * Define the model's default state.
      *
@@ -22,8 +20,8 @@ class CommunityUserFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => static::$user_id ??= User::factory()->create()->id,
-            'community_id' => static::$community_id ??= Community::factory()->create()->id,
+            'user_id' => User::factory(),
+            'community_id' => Community::factory(),
         ];
     }
 

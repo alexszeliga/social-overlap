@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\User;
-use App\Models\Community;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -12,8 +11,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ContributionFactory extends Factory
 {
-    protected static ?string $user_id;
-    protected static ?string $community_id;
     /**
      * Define the model's default state.
      *
@@ -22,7 +19,7 @@ class ContributionFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => static::$user_id ??= User::factory()->create()->id,
+            'user_id' => User::factory(),
             'url' => fake()->url(),
             'name' => fake()->title(),
         ];

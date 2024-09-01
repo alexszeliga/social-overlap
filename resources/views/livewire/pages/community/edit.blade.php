@@ -6,10 +6,10 @@ use App\Models\Community;
 use Illuminate\Support\Str;
 
 new #[Layout('layouts.app')] class extends Component {
-    public string $pageTitle;
-    public string $name;
-    public string $slug;
-    public string $description;
+    public ?string $pageTitle;
+    public ?string $name;
+    public ?string $slug;
+    public ?string $description;
 
     protected function rules() : array {
         return Community::rules();

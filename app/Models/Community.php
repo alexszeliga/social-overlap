@@ -53,10 +53,6 @@ class Community extends Model
         return $this->hasMany(Conversation::class, 'community_id', 'id');
     }
 
-    public function getId():string {
-        return $this->id;
-    }
-
     public function userIsSubscribed(User $user) {
         return $this->users->pluck('id')->contains($user->id);
     }

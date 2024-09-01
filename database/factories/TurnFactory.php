@@ -13,10 +13,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class TurnFactory extends Factory
 {
-    protected static ?string $user_id;
-    protected static ?string $turn_type_id;
-    protected static ?string $turnable_id;
-    protected static ?string $turnable_type;
     /**
      * Define the model's default state.
      *
@@ -25,10 +21,10 @@ class TurnFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => static::$user_id ??= User::factory()->create()->id,
-            'turnable_id' => static::$turnable_id ??= Comment::factory()->create()->id,
-            'turnable_type' => static::$turnable_type ??= Comment::class,
-            'turn_type_id' => static::$turn_type_id ??= TurnType::support()->id,
+            'user_id' => User::factory(),
+            'turnable_id' => Comment::factory(),
+            'turnable_type' => Comment::class,
+            'turn_type_id' => TurnType::support()->id,
         ];
     }
 }

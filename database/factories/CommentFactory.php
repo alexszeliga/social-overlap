@@ -12,12 +12,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class CommentFactory extends Factory
 {
-    protected static ?string $user_id;
-    protected static ?string $conversation_id;
-    protected static ?string $commentable_id;
-    protected static ?string $commentable_type;
-
-
     /**
      * Define the model's default state.
      *
@@ -26,10 +20,10 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         return [
-            'conversation_id' => static::$conversation_id ??= Conversation::factory()->create()->id,
-            'user_id' => static::$user_id ??= User::factory()->create()->id,
-            'commentable_id' => static::$commentable_id ??= Conversation::factory()->create()->id,
-            'commentable_type' => static::$commentable_type ??= Conversation::class,
+            'conversation_id' => Conversation::factory(),
+            'user_id' => User::factory(),
+            'commentable_id' => Conversation::factory(),
+            'commentable_type' => Conversation::class,
             'body' => fake()->text(),
         ];
     }

@@ -20,8 +20,6 @@ use Tests\TestCase;
 
 use Illuminate\Database\Eloquent\Model;
 
-use Illuminate\Support\Facades\DB;
-
 class ToggleTest extends TestCase {
     public Model $root;
     public User $user;
@@ -49,17 +47,14 @@ class ToggleTest extends TestCase {
     }
 
     public function testProcessTurnInsertsTurn() {
-        DB::beginTransaction();        
         $support = TurnType::support();
         $job = new ProcessTurn($support, $this->user, $this->root);
         $job->handle();
         $turn = Turn::where('user_id', $this->user->id)->where('turnable_id', $this->root->id)->sole();
         $this->assertInstanceOf(Turn::class, $turn);
-        DB::rollback();
     }
 
     public function testProcessTurnScoreDelta() {
-        DB::beginTransaction();
         $this->assertEquals($this->root->getScore(), 0);
         $support = TurnType::support();
         $dissent = TurnType::dissent();
@@ -84,7 +79,6 @@ class ToggleTest extends TestCase {
         $job5->handle();
         $this->root->refresh();
         $this->assertEquals($this->root->getScore(), -2);
-        DB::rollback();
     }
 
     public function testProcessTurnFiresBroadcastEventForRootModel() {
