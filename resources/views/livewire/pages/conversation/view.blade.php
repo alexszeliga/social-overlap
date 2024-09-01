@@ -52,7 +52,7 @@ new #[Layout('layouts.app')] class extends Component {
                 <x-primary-button wire:click="$toggle('showRootComment')">
                     Comment
                 </x-primary-button>
-                <livewire:components.turn.toggle :root="$conversation" key="vote-{{$conversation->id}}" />
+                <livewire:components.turn.toggle :root="$conversation" :key="'vote-'.$conversation->id" />
                 @endif
                 <x-secondary-button-link :href="$conversation->contribution->url" target="_BLANK">
                     Visit
@@ -62,7 +62,7 @@ new #[Layout('layouts.app')] class extends Component {
     </x-header>
     @if($showRootComment)
     <x-content-card>
-        <livewire:components.comment.form :conversation="$conversation" :root="$conversation" :key="$conversation->id" />
+        <livewire:components.comment.form :conversation="$conversation" :root="$conversation" :key="'comment-form-'.$conversation->id" />
     </x-content-card>
     @endif
     @if($comments->count())
@@ -74,7 +74,7 @@ new #[Layout('layouts.app')] class extends Component {
                     :comment="$comment"
                     :conversation="$conversation"
                     :root="$comment"
-                    :key="$comment->id"/>
+                    :key="'comment-card-'.$comment->id"/>
             
             @endforeach
         </div>
