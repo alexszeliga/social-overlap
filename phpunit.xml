@@ -18,6 +18,8 @@
         </include>
         <exclude>
             <directory>app/View</directory>
+            <directory>app/Providers</directory>
+
         </exclude>
     </source>
     <php>

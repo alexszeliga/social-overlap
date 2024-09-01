@@ -91,7 +91,7 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_login_rate_limit_event()
+    public function test_login_rate_limit_and_event()
     {
         Event::fake();
         $user = User::factory()->create();
