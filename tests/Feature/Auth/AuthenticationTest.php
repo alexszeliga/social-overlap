@@ -7,6 +7,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Volt\Volt;
 use Tests\TestCase;
 
+use Illuminate\Auth\Events\Lockout;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
+use App\Livewire\Forms\LoginForm;
+
 class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
@@ -82,5 +89,29 @@ class AuthenticationTest extends TestCase
             ->assertRedirect('/');
 
         $this->assertGuest();
+    }
+
+    public function test_login_rate_limit_event()
+    {
+        Event::fake();
+        $user = User::factory()->create();
+
+        RateLimiter::hit(Str::lower($user->email).'|'.app(Request::class)->ip());
+        RateLimiter::hit(Str::lower($user->email).'|'.app(Request::class)->ip());
+        RateLimiter::hit(Str::lower($user->email).'|'.app(Request::class)->ip());
+        RateLimiter::hit(Str::lower($user->email).'|'.app(Request::class)->ip());
+        RateLimiter::hit(Str::lower($user->email).'|'.app(Request::class)->ip());
+        RateLimiter::hit(Str::lower($user->email).'|'.app(Request::class)->ip());
+
+        Volt::test('pages.auth.login')
+            ->set('form.email', $user->email)
+            ->set('form.password', 'password')
+            ->call('login')
+            ->assertHasErrors();
+
+        Event::assertDispatched(Lockout::class, function ($event) {
+            return $event->request->ip() === app(Request::class)->ip();
+        });
+
     }
 }
