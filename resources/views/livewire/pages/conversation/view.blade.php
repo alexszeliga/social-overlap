@@ -44,15 +44,19 @@ new #[Layout('layouts.app')] class extends Component {
 <div>
     <x-header>
         <div class="flex items-center justify-between">
-            <x-h1>
-                {{ $conversation->contribution->name }}
-            </x-h1>
-            <div class="flex flex-col space-y-1">
+            <div class="flex flex-col md:flex-row items-center gap-2">
+                <livewire:components.turn.toggle :root="$conversation" key="{{'vote-'.$conversation->id}}" />
+                <div class="flex flex-col gap-2">
+                    <x-h4>u:{{ $conversation->contribution->user->name }}</x-h4>
+                    <x-h1>{{ $conversation->contribution->name }}</x-h1>
+                    <x-h4>{{ $conversation->created_at->diffForHumans() }}</x-h4>
+                </div>
+            </div>
+            <div class="flex flex-col gap-2">
                 @if($conversation->community->userIsSubscribed(Auth::user()))
                 <x-primary-button wire:click="$toggle('showRootComment')">
                     Comment
                 </x-primary-button>
-                <livewire:components.turn.toggle :root="$conversation" key="{{'vote-'.$conversation->id}}" />
                 @endif
                 <x-secondary-button-link :href="$conversation->contribution->url" target="_BLANK">
                     Visit
