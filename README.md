@@ -8,7 +8,7 @@ You will need to have all the pre-req's fulfilled to be able to run a Laravel 11
 
 ## Using Sail
 
-I recomment using Artisan Sail to construct your development environment. The `.env.example` has default values that assume that you'll be using Redis, Mailtrap and the app server via Sail as described in the `/docker` folder. It assumes you'll be providing a separate DB running locally on the machine.
+I recomment using `artisan sail` to construct your development environment. The `.env.example` has default values that assume that you'll be using Redis, Mailtrap and the app server via Sail as described in the `/docker` folder. It assumes you'll be providing a separate DB running locally on the machine.
 
 ## The Laravel basics
 
