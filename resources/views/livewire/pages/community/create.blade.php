@@ -6,10 +6,9 @@ use App\Models\Community;
 use Illuminate\Support\Str;
 
 new #[Layout('layouts.app')] class extends Component {
-    public ?string $pageTitle;
-    public ?string $name;
-    public ?string $slug;
-    public ?string $description;
+    public string $name = "";
+    public string $slug = "";
+    public string $description = "";
 
     protected function rules() : array {
         return Community::rules();
@@ -28,24 +27,13 @@ new #[Layout('layouts.app')] class extends Component {
         return redirect()->to(route('community.index'));
     }
 
-    public function mount(?Community $community)
-    {   
-        if (request()->routeIs('community.create')) {
-            $this->pageTitle = "Create Community";
-        } else {
-            $this->pageTitle = "Edit Community";
-            $this->name = $community->name;
-            $this->description = $community->description;
-        }
-    }
-
 };
 ?>
 
 <div>
     <x-header>
         <x-h1>
-            {{ __($pageTitle) }}
+            Create Community
         </x-h1>
     </x-header>
     <x-content-card>
@@ -64,7 +52,7 @@ new #[Layout('layouts.app')] class extends Component {
                 </div>
                 <div class="flex items-center justify-end mt-4"></div>
                 <x-primary-button>
-                    {{ __($pageTitle) }}
+                    Create Community
                 </x-primary-button>
             </form>
         </div>
