@@ -2,6 +2,9 @@
 
 use App\Models\Community;
 use App\Models\Contribution;
+use App\Models\Conversation;
+use App\Models\Turn;
+use App\Models\TurnType;
 
 use Illuminate\Support\Facades\Auth;
 

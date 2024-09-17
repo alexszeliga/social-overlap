@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\Conversation;
+use App\Models\Turn;
+use App\Models\TurnType;
 use App\Turnable;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -43,5 +45,17 @@ class Comment extends Model
 
     public function user() : HasOne {
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    protected static function booted() : void 
+    {
+        static::created(function (Comment $comment) {
+            Turn::create([
+                'user_id' => $comment->user_id,
+                'turnable_type' => $comment::class,
+                'turnable_id' => $comment->id,
+                'turn_type_id' => TurnType::support()->id,
+            ]);
+        });
     }
 }

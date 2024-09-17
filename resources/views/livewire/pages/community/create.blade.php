@@ -4,6 +4,8 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Layout;
 use App\Models\Community;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+
 
 new #[Layout('layouts.app')] class extends Component {
     public string $name = "";
@@ -18,15 +20,14 @@ new #[Layout('layouts.app')] class extends Component {
     {
         $this->slug = Str::slug($this->name);
         $this->validate();
-        Community::create([
+        $community = Community::create([
             'name' => $this->name,
             'description' => $this->description,
             'slug' => $this->slug,
         ]);
-
+        Auth::user()->claimCommunity($community);
         return redirect()->to(route('community.index'));
     }
-
 };
 ?>
 

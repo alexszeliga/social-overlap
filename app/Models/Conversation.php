@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Models\Comment;
 use App\Models\Community;
 use App\Models\Contribution;
+use App\Models\Turn;
+use App\Models\TurnType;
 use App\Turnable;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -36,5 +38,16 @@ class Conversation extends Pivot
     {
         return $this->morphMany(Comment::class, 'commentable')
                     ->latest();
+    }
+    protected static function booted() : void 
+    {
+        static::created(function (Conversation $conversation) {
+            Turn::create([
+                'user_id' => $conversation->contribution->user_id,
+                'turnable_type' => $conversation::class,
+                'turnable_id' => $conversation->id,
+                'turn_type_id' => TurnType::support()->id,
+            ]);
+        });
     }
 }

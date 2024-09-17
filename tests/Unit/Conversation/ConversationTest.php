@@ -64,13 +64,14 @@ class ConversationTest extends TestCase
     }
 
     public function testCanGetScoreFromTurns() {
+        $this->assertEquals($this->conversation->getScore(), 1);
         $turn1 = Turn::factory()->create([
             'turnable_id' => $this->conversation->id,
             'turnable_type' => $this->conversation::class,
             'turn_type_id' => TurnType::support()->id,
         ]);
-
-        $this->assertEquals($this->conversation->getScore(), 1);
+        $this->conversation->refresh();
+        $this->assertEquals($this->conversation->getScore(), 2);
     }
 
     public function testCanReturnContribution() {
